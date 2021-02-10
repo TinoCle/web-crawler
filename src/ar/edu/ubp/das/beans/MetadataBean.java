@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.beans;
 
 public class MetadataBean {
-	private String id;
 	private Integer userId;
 	private String URL;
 	private String type;
@@ -9,10 +8,26 @@ public class MetadataBean {
 	private String title;
 	private String text;
 	private Integer textLength;
-	private Boolean valid = false;
+	private Boolean approved = false;
 	private Integer popularity = 0;
+	private Integer websiteId;
 	
-		
+	public Integer getWebsiteId() {
+		return websiteId;
+	}
+
+	public void setWebsiteId(Integer websiteId) {
+		this.websiteId = websiteId;
+	}
+
+	public Boolean getApproved() {
+		return approved;
+	}
+
+	public void setApproved(Boolean approved) {
+		this.approved = approved;
+	}
+
 	public Integer getPopularity() {
 		return popularity;
 	}
@@ -21,28 +36,12 @@ public class MetadataBean {
 		this.popularity = popularity;
 	}
 
-	public Boolean getValid() {
-		return valid;
-	}
-
-	public void setValid(Boolean valid) {
-		this.valid = valid;
-	}
-
-	public String getId() {
-		return id;
-	}
-
 	public Integer getUserId() {
 		return userId;
 	}
 
 	public Integer getTextLength() {
 		return textLength;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public void setUserId(Integer userId) {

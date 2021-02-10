@@ -1,20 +1,18 @@
 package ar.edu.ubp.das.crawling;
 
 import java.io.File;
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
-import ar.edu.ubp.das.beans.WebsiteBean;
 import ar.edu.ubp.das.beans.UserWebsitesBean;
+import ar.edu.ubp.das.beans.WebsiteBean;
 import ar.edu.ubp.das.db.Dao;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.utils.Utils;
 import ar.edu.ubp.das.websites.Websites;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -26,7 +24,7 @@ public class Controller {
 	static {
 		System.setProperty("DaoFactoryPrefix", "MS");
 		System.setProperty("ProviderName", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=Charmander7!");
+		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=secret");
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -36,7 +34,7 @@ public class Controller {
         	doCrawling(websites);
         } else {
         	// TODO: Log
-        	System.out.println("No se encontraron páginas para reindexar, saltando crawling...");
+        	System.out.println("No se encontraron paginas para reindexar, saltando crawling...");
         }
 	}
 
@@ -46,34 +44,39 @@ public class Controller {
         Statistics stats = new Statistics();
 		try {
 			Dao<WebsiteBean, WebsiteBean> dao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
-			// Iteramos un usuario a la vez, cada uno con su set de páginas, sino se pisa la frontera
+			// Iteramos un usuario a la vez, cada uno con su set de paginas, sino se pisa la frontera
 			for (UserWebsitesBean userWebsites : usersWebsites) {
-				File dir = getFolderName(0);
+				File dir = Utils.getFolderName(0);
 				config.setCrawlStorageFolder(dir.toString());
 				PageFetcher pageFetcher = new PageFetcher(config);
 				RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 				RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 				CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
-				List<WebsiteBean> websitesUser = parseCsv(userWebsites);
+				List<WebsiteBean> websitesUser = Utils.parseCsv(userWebsites);
 				List<String> domains = new ArrayList<String>();
+				Map<String, Integer> domainsId = new HashMap<String, Integer>();
 				for (WebsiteBean website : websitesUser) {
-					System.out.println("URL: " + website.getUrl());
-					if (pingURL(website.getUrl(), 5000)) {
+					if (Utils.pingURL(website.getUrl(), 5000)) {
 						domains.add(website.getUrl());
+						String domainName = Utils.getDomainName(website.getUrl());
+						domainsId.put(domainName, website.getWebsiteId());
 						controller.addSeed(website.getUrl());
 					}
 					else {
 						// TODO: Log
-						System.out.println(website.getUrl() + " caída");
-						System.out.println("ID WEBSITE:" + website.getWebsiteId());
+						System.out.println(website.getUrl() + " caida");
 						dao.update(website.getWebsiteId());
 						website.setIsUp(false);
 					}
 				}
+				//controller.addSeed("https://stackoverflow.com/questions/1026723/how-to-convert-a-map-to-list-in-java");
 				int numberOfCrawlers = 8;
-				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, userWebsites.getUserId());
+				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, 
+						domains,
+						domainsId,
+						userWebsites.getUserId());
 				controller.start(factory, numberOfCrawlers);
-				FileUtils.deleteDirectory(dir);*/
+				FileUtils.deleteDirectory(dir);
 				
 				for (WebsiteBean website : websitesUser) {
 					if (website.getIsUp()) {
@@ -84,48 +87,6 @@ public class Controller {
 			System.out.println(stats.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
-	
-	private static List<WebsiteBean> parseCsv(UserWebsitesBean userWebsites) {
-		List<WebsiteBean> websites = new ArrayList<WebsiteBean>();
-		List<String> domains = Arrays.asList(userWebsites.getWebsitesCSV().split(","));
-		List<Integer> websitesId = Arrays.stream(userWebsites.getWebsitesIdCSV()
-				.split(",")).map(Integer::parseInt).collect(Collectors.toList());
-		for (int i = 0; i < domains.size(); i++) {
-			WebsiteBean website = new WebsiteBean();
-			website.setUserId(userWebsites.getUserId());
-			website.setUrl(domains.get(i));
-			website.setIsUp(true);
-			website.setWebsiteId(websitesId.get(i));
-			website.setIsUp(true);
-			websites.add(website);
-		}
-		return websites;
-	}
-	
-	private static boolean pingURL(String url, int timeout) {
-	    url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
-	    try {
-	        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-	        connection.setConnectTimeout(timeout);
-	        connection.setReadTimeout(timeout);
-	        connection.setRequestMethod("HEAD");
-	        int responseCode = connection.getResponseCode();
-	        return (200 <= responseCode && responseCode <= 399);
-	    } catch (IOException exception) {
-	        return false;
-	    }
-	}
-
-	
-	private static File getFolderName(int count) {
-		String path = "/tmp/crawler4j";
-		File dir = new File(path + "/crawler" + count);
-		if (!dir.exists()){
-		    return dir;
-		} else {
-			return getFolderName(count + 1);
 		}
 	}
 	

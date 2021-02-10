@@ -1,13 +1,12 @@
 package ar.edu.ubp.das.crawling;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.tika.io.TikaInputStream;
@@ -23,6 +22,7 @@ import org.jsoup.nodes.Document;
 
 import ar.edu.ubp.das.beans.MetadataBean;
 import ar.edu.ubp.das.elastic.ElasticSearch;
+import ar.edu.ubp.das.utils.Utils;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -31,19 +31,27 @@ import edu.uci.ics.crawler4j.url.WebURL;
 public class MyCrawler extends WebCrawler {	
 	// we dont want js, css, mp4, etc
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav"
-			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|jpe?g|png|svg))$");
-	private static final String[] CONTENT_FILTER = {"application/javascript", "application/javascript; charset=UTF-8"};
+			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|png"
+			+ "|svg|svgz|ico|jpg|jpeg|jpe|jif|jfif|jfi|webp|tiff|tif|psd|raw|arw|cr2"
+			+ "|nrw|k25|bmp|dib))$");
+	private static final String[] CONTENT_FILTER = {
+			"application/javascript", "application/javascript; charset=UTF-8",
+			"application/opensearchdescription+xml; charset=utf-8"
+	};
 	private static final int LIMIT_PER_DOMAIN = 10;
 	private List<String> crawlDomains;
-	private Statistics stats;
+	private Map<String, Integer> domainsId = new HashMap<String, Integer>();
+	
 	private int user_id;
+	private Statistics stats;
 	private ElasticSearch elastic;
 	
 	HashMap<String, Integer> countPerDomain = new HashMap<String, Integer>();
 
-	public MyCrawler(Statistics stats, List<String> crawlDomains, int user_id) {
+	public MyCrawler(Statistics stats, List<String> crawlDomains, Map<String, Integer> domainsId, int user_id) {
 		this.stats = stats;
 		this.crawlDomains = crawlDomains;
+		this.domainsId = domainsId;
 		this.user_id = user_id;
 		this.elastic = new ElasticSearch();
 	}
@@ -66,17 +74,15 @@ public class MyCrawler extends WebCrawler {
 		stats.increaseVisitedUrls();
 		if (Arrays.stream(CONTENT_FILTER)
 				.anyMatch(type -> type.equals(referringPage.getContentType()))) {
+			stats.increaseSkippedLinks();
 			return false;
 		}
 		// only domain, not external sites
 		if (!FILTERS.matcher(href).matches()) {
-			System.out.println("DOMINIOS:");
-			for (String domain : crawlDomains) {
-				domain = domain.replaceFirst("^(https|http)://", "");
-				System.out.println("DOMINIO: " + domain);
-				System.out.println("HREF: " + href);
-				if (href.startsWith(domain)) {
-					System.out.println("Visiting: " + domain);
+			for (String webUrl : crawlDomains) {
+				href = url.getDomain();
+				String domain = Utils.getDomainName(webUrl);				
+				if (href.equals(domain)) {
 					return true;
 				}
 			}
@@ -92,13 +98,17 @@ public class MyCrawler extends WebCrawler {
 	 */
 	@Override
 	public void visit(Page page) {
-		System.out.println("Visiting: " + page.getWebURL().toString());
+		Integer id = getWebsiteId(page);
+		if (id == null) {
+			return;
+		}
 		// Limite por dominio
 		if (!this.checkDomainLimit(page.getWebURL().getDomain())) {
 			return;
 		}
 		MetadataBean metadata = new MetadataBean();
 		metadata.setUserId(this.user_id);
+		metadata.setWebsiteId(id);
 		String url = page.getWebURL().getURL();
 		System.out.println("Crawling " + url + ".");
 		metadata.setURL(url);
@@ -107,9 +117,14 @@ public class MyCrawler extends WebCrawler {
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			Document doc = Jsoup.parse(htmlParseData.getHtml());
-			String description = doc.select("meta[name=description]").get(0).attr("content");
+			String description = "";
+			if (doc.select("meta[name=description]").size() > 0) {
+				description = doc.select("meta[name=description]").get(0).attr("content");
+			}
+			metadata.setTitle(doc.title());
 			metadata.setTextLength(doc.text().length());
-			metadata.setTitle(doc.title().concat(description));
+			doc.prependText(description);
+			metadata.setText(doc.text().replaceAll("^\"|\"$", ""));
 		}
 		// pdf, docx, odf, etc.
 		else {
@@ -123,6 +138,12 @@ public class MyCrawler extends WebCrawler {
 		System.out.println("=============");
 	}
 
+	private Integer getWebsiteId(Page page) {
+		Integer id = this.domainsId.get(page.getWebURL().getDomain());
+		System.out.println("ID OF: " + page.getWebURL().getURL() + " ID: " + id);
+		return id;
+	}
+	
 	private String parseDoc(String url) {
 		try {
 			Metadata metadata = new Metadata();
@@ -134,12 +155,6 @@ public class MyCrawler extends WebCrawler {
 			ParseContext context = new ParseContext();
 			Parser parser = new AutoDetectParser();
 			parser.parse(input, textHandler, metadata, context);
-//			String[] names = metadata.names();
-//			Arrays.sort(names);
-//			for (String name : names) {
-//				System.out.println(name + ": " + metadata.get(name));
-//			}
-			write("doc.txt", handler.toString());
 			return handler.toString();
 		} catch (Exception e) {
 			stats.increaseParsingFailed();
@@ -154,25 +169,10 @@ public class MyCrawler extends WebCrawler {
 			PdfDataExtractor extractor = new PdfDataExtractor(data);
 			title = extractor.extractTitle();			
 		} catch (Exception e) {
+			// TODO: Log
 			e.printStackTrace();
 		}
 		return title;
-	}
-	
-	/**
-	 * @param filename
-	 * @param text     String that is going to be written in the txt
-	 */
-	private void write(String filename, String text) {
-		try {
-			FileWriter myWriter = new FileWriter(filename);
-			myWriter.write(text);
-			myWriter.close();
-			System.out.println("Successfully wrote to the file.");
-		} catch (IOException e) {
-			System.out.println("An error occurred.");
-			e.printStackTrace();
-		}
 	}
 	
 	private boolean checkDomainLimit(String domain) {
@@ -181,7 +181,6 @@ public class MyCrawler extends WebCrawler {
 				this.countPerDomain.get(domain) != null ?
 				this.countPerDomain.get(domain) + 1 : 1
 		);
-//		System.out.println(domain + ": " + this.countPerDomain.get(domain));
 		return this.countPerDomain.get(domain) <= LIMIT_PER_DOMAIN;
 	}
 }

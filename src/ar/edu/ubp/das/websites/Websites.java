@@ -34,10 +34,6 @@ public class Websites {
 			if (websites.size() > 0) {
 				System.out.println("Páginas encontradas!");
 			}
-			/*for (WebsiteBean web : websites) {
-				System.out.println("Páginas del user " + web.getUser_id() + ": " +
-				web.getWebsites());
-		 	}*/
 
 			return websites;
 		} catch (SQLException e) {
@@ -102,7 +98,7 @@ public class Websites {
 						Object res[] = client.invoke("getList");
 						client.close();
 						ArrayList<String> urls = (ArrayList<String>) res[0];
-						serviceDao.delete(service); // borro las p�ginas de ese servicio
+						serviceDao.delete(service); // borro las paginas de ese servicio
 						for (String url : urls) {
 							this.insertWebsite(url, service);
 						}
