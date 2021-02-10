@@ -15,7 +15,6 @@ import ar.edu.ubp.das.beans.WebsiteBean;
 import ar.edu.ubp.das.beans.UserWebsitesBean;
 import ar.edu.ubp.das.db.Dao;
 import ar.edu.ubp.das.db.DaoFactory;
-import ar.edu.ubp.das.meilisearch.MeiliSearch;
 import ar.edu.ubp.das.websites.Websites;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
@@ -27,7 +26,7 @@ public class Controller {
 	static {
 		System.setProperty("DaoFactoryPrefix", "MS");
 		System.setProperty("ProviderName", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=secret");
+		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=Charmander7!");
 	}
 
 	public static void main(String[] args) throws Exception {
@@ -37,7 +36,7 @@ public class Controller {
         	doCrawling(websites);
         } else {
         	// TODO: Log
-        	System.out.println("No se encontraron p·ginas para reindexar, saltando crawling...");
+        	System.out.println("No se encontraron p√°ginas para reindexar, saltando crawling...");
         }
 	}
 
@@ -45,10 +44,9 @@ public class Controller {
 		System.out.println("Iniciando Crawling...");
 		CrawlConfig config = initConfig();
         Statistics stats = new Statistics();
-        MeiliSearch meilisearch = new MeiliSearch();
 		try {
 			Dao<WebsiteBean, WebsiteBean> dao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
-			// Iteramos un usuario a la vez, cada uno con su set de p·ginas, sino se pisa la frontera
+			// Iteramos un usuario a la vez, cada uno con su set de p√°ginas, sino se pisa la frontera
 			for (UserWebsitesBean userWebsites : usersWebsites) {
 				File dir = getFolderName(0);
 				config.setCrawlStorageFolder(dir.toString());
@@ -66,13 +64,13 @@ public class Controller {
 					}
 					else {
 						// TODO: Log
-						System.out.println(website.getUrl() + " CaÌda");
+						System.out.println(website.getUrl() + " ca√≠da");
 						System.out.println("ID WEBSITE:" + website.getWebsiteId());
 						dao.update(website.getWebsiteId());
 					}
 				}
-				/*int numberOfCrawlers = 8;
-				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, userWebsites.getUserId(), meilisearch);
+				int numberOfCrawlers = 8;
+				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, userWebsites.getUserId());
 				controller.start(factory, numberOfCrawlers);
 				FileUtils.deleteDirectory(dir);
 				
@@ -80,11 +78,10 @@ public class Controller {
 					if (website.getIsUp()) {
 						dao.update(website);						
 					}
-				}*/
+				}
 			}
 			System.out.println(stats.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -99,6 +96,7 @@ public class Controller {
 			website.setUserId(userWebsites.getUserId());
 			website.setUrl(domains.get(i));
 			website.setWebsiteId(websitesId.get(i));
+			website.setIsUp(true);
 			websites.add(website);
 		}
 		return websites;

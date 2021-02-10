@@ -249,5 +249,12 @@
 			<version>2.3.2</version>
 		</dependency>
 		<!-- ################# CXF ################# -->
+		<!-- ################# elasticsearch ################# -->
+	    <dependency>
+	            <groupId>org.elasticsearch.client</groupId>
+	            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+	            <version>7.2.1</version>
+	    </dependency>
+		<!-- ################# elasticsearch ################# -->
 	</dependencies>
 </project>
