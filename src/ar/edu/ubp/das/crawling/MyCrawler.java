@@ -22,15 +22,13 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import ar.edu.ubp.das.beans.MetadataBean;
-import ar.edu.ubp.das.meilisearch.MeiliSearch;
+import ar.edu.ubp.das.elastic.ElasticSearch;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
-public class MyCrawler extends WebCrawler {
-	MeiliSearch meilisearch;
-	
+public class MyCrawler extends WebCrawler {	
 	// we dont want js, css, mp4, etc
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav"
 			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|jpe?g|png|svg))$");
@@ -39,14 +37,15 @@ public class MyCrawler extends WebCrawler {
 	private List<String> crawlDomains;
 	private Statistics stats;
 	private int user_id;
+	private ElasticSearch elastic;
 	
 	HashMap<String, Integer> countPerDomain = new HashMap<String, Integer>();
 
-	public MyCrawler(Statistics stats, List<String> crawlDomains, int user_id, MeiliSearch meilisearch) {
+	public MyCrawler(Statistics stats, List<String> crawlDomains, int user_id) {
 		this.stats = stats;
 		this.crawlDomains = crawlDomains;
 		this.user_id = user_id;
-		this.meilisearch = meilisearch;
+		this.elastic = new ElasticSearch();
 	}
 
 	@Override
@@ -120,7 +119,7 @@ public class MyCrawler extends WebCrawler {
 				metadata.setTitle(getPDFTitle(page.getContentData()));
 			}
 		}
-		this.meilisearch.addDocument(metadata);
+		this.elastic.indexPage(metadata);
 		System.out.println("=============");
 	}
 

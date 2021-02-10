@@ -32,7 +32,7 @@ public class Websites {
 			Dao<UserWebsitesBean, String> dao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
 			List<UserWebsitesBean> websites = dao.select();
 			if (websites.size() > 0) {
-				System.out.println("Páginas encontradas!");
+				System.out.println("PÃ¡ginas encontradas!");
 			}
 			/*for (WebsiteBean web : websites) {
 				System.out.println("PÃ¡ginas del user " + web.getUser_id() + ": " +
@@ -42,7 +42,7 @@ public class Websites {
 			return websites;
 		} catch (SQLException e) {
 			// TODO: Log
-			System.out.println("Error al obtener el listado de páginas");
+			System.out.println("Error al obtener el listado de pï¿½ginas");
 			System.out.println(e);
 		}
 		return null;
@@ -64,20 +64,20 @@ public class Websites {
 						response = this.restCall(service.getURLPing());
 						if (response.statusCode() >= 400) {
 							// TODO: Log
-							System.out.println("Servicio #" + service.getService_id() + " caído.");
-							serviceDao.update(service); // marca como caído
+							System.out.println("Servicio #" + service.getService_id() + " caï¿½do.");
+							serviceDao.update(service); // marca como caï¿½do
 						} else {
 							System.out.println(
-									"Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
+									"Servicio #" + service.getService_id() + " funcionando, obteniendo pï¿½ginas...");
 							response = this.restCall(service.getURLResource());
 							if (response.statusCode() >= 400) {
 								// TODO: Log
 								System.out.println("Servicio #" + service.getService_id()
-										+ " no respondió con el listado de páginas.");
-								serviceDao.update(service); // marca como caído
+										+ " no respondiï¿½ con el listado de pï¿½ginas.");
+								serviceDao.update(service); // marca como caï¿½do
 							} else {
-								System.out.println("Limpiando páginas del servicio #" + service.getService_id());
-								serviceDao.delete(service); // borro las páginas de ese servicio
+								System.out.println("Limpiando pï¿½ginas del servicio #" + service.getService_id());
+								serviceDao.delete(service); // borro las pï¿½ginas de ese servicio
 								JSONParser parser = new JSONParser();
 								JSONObject list = (JSONObject) ((JSONObject) parser.parse(response.body())).get("list");
 								Set<String> keys = list.keySet();
@@ -89,7 +89,7 @@ public class Websites {
 						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
 					} catch (IOException e) {
 						// TODO: Log
-						System.out.println("Servicio #" + service.getService_id() + " caído.");
+						System.out.println("Servicio #" + service.getService_id() + " caï¿½do.");
 						serviceDao.update(service);
 					}
 				} else {
@@ -98,11 +98,11 @@ public class Websites {
 						Client client = jdcf.createClient(service.getURLPing());
 						client.invoke("ping");
 						System.out.println(
-								"Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
+								"Servicio #" + service.getService_id() + " funcionando, obteniendo pï¿½ginas...");
 						Object res[] = client.invoke("getList");
 						client.close();
-						ArrayList<String> urls = (ArrayList) res[0];
-						serviceDao.delete(service); // borro las páginas de ese servicio
+						ArrayList<String> urls = (ArrayList<String>) res[0];
+						serviceDao.delete(service); // borro las pï¿½ginas de ese servicio
 						for (String url : urls) {
 							this.insertWebsite(url, service);
 						}
@@ -110,9 +110,9 @@ public class Websites {
 
 					} catch (Exception e) {
 						// TODO: Log
-						System.out.println("Servicio #" + service.getService_id() + " caído.");
+						System.out.println("Servicio #" + service.getService_id() + " caï¿½do.");
 						System.out.println(e.getMessage());
-						serviceDao.update(service); // marca como caído
+						serviceDao.update(service); // marca como caï¿½do
 					}
 				}
 			}
