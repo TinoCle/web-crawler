@@ -36,6 +36,22 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	}
 	
 	@Override
+	public void update(Integer id) throws SQLException {
+		try {
+			this.connect();
+			this.setProcedure("dbo.reindex_service(?,?)");
+			this.setParameter(1, id);
+			this.setParameter(2, false);
+			if (this.executeUpdate() == 0) {
+				// TODO: Log
+			}
+		} finally {
+			this.close();
+		}
+		
+	}
+	
+	@Override
 	//utilizado para setear servicios como caídos
 	public void update(ServiceBean service) throws SQLException {
 		try {
@@ -124,6 +140,18 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	public boolean valid(ServiceBean arg0) throws SQLException {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void delete(List<ServiceBean> arg0) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(List<ServiceBean> arg0) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

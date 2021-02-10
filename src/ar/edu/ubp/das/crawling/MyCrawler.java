@@ -33,8 +33,8 @@ public class MyCrawler extends WebCrawler {
 	
 	// we dont want js, css, mp4, etc
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav"
-			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml))$");
-	private static final Pattern IMAGE_EXTENSIONS = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png))$");
+			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|jpe?g|png|svg))$");
+	private static final String[] CONTENT_FILTER = {"application/javascript", "application/javascript; charset=UTF-8"};
 	private static final int LIMIT_PER_DOMAIN = 10;
 	private List<String> crawlDomains;
 	private Statistics stats;
@@ -63,17 +63,23 @@ public class MyCrawler extends WebCrawler {
 
 	@Override
 	public boolean shouldVisit(Page referringPage, WebURL url) {
-		String href = url.getURL().toLowerCase();
+		String href = url.getURL().toLowerCase().replaceFirst("^(https|http)://", "");
 		stats.increaseVisitedUrls();
-		// If it's an image, take it
-		if (IMAGE_EXTENSIONS.matcher(href).matches())
+		if (Arrays.stream(CONTENT_FILTER)
+				.anyMatch(type -> type.equals(referringPage.getContentType()))) {
 			return false;
-
+		}
 		// only domain, not external sites
 		if (!FILTERS.matcher(href).matches()) {
+			System.out.println("DOMINIOS:");
 			for (String domain : crawlDomains) {
-				if (href.startsWith(domain))			
-					return true;					
+				domain = domain.replaceFirst("^(https|http)://", "");
+				System.out.println("DOMINIO: " + domain);
+				System.out.println("HREF: " + href);
+				if (href.startsWith(domain)) {
+					System.out.println("Visiting: " + domain);
+					return true;
+				}
 			}
 		}
 		stats.increaseSkippedLinks();
@@ -87,35 +93,29 @@ public class MyCrawler extends WebCrawler {
 	 */
 	@Override
 	public void visit(Page page) {
+		System.out.println("Visiting: " + page.getWebURL().toString());
+		// Limite por dominio
 		if (!this.checkDomainLimit(page.getWebURL().getDomain())) {
-//			System.out.println("Límite excedido, omitiendo dominio");
 			return;
 		}
 		MetadataBean metadata = new MetadataBean();
-		metadata.setUser_id(this.user_id);
+		metadata.setUserId(this.user_id);
 		String url = page.getWebURL().getURL();
 		System.out.println("Crawling " + url + ".");
 		metadata.setURL(url);
 		metadata.setExtension(url.substring(url.lastIndexOf('.')));
-		metadata.setType(page.getContentType()); // can be: text/html, image/png, image/jpg, etc.
-		
-		// Conclusion:
-		// getting the html from crawler and then parsing it whit Jsoup: OK
-		// getting the text from already parsed html from crawler4j brings the metadata
+		metadata.setType(page.getContentType()); // text/html, application/pdf, etc
 		if (page.getParseData() instanceof HtmlParseData) {
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 			Document doc = Jsoup.parse(htmlParseData.getHtml());
 			String description = doc.select("meta[name=description]").get(0).attr("content");
-			System.out.println("Description: " + description);
-			// check https://jsoup.org/ for more options
-			
-			metadata.setText_length(doc.text().length());
-			metadata.setTitle(doc.title());
+			metadata.setTextLength(doc.text().length());
+			metadata.setTitle(doc.title().concat(description));
 		}
-		// not a html page, can be a pdf, docx, odf, png, jpg, etc.
+		// pdf, docx, odf, etc.
 		else {
 			metadata.setText(this.parseDoc(url));
-			// if PDF, other files not implemented yet
+			// PDF
 			if (page.getContentType().equals("application/pdf")) {
 				metadata.setTitle(getPDFTitle(page.getContentData()));
 			}
@@ -129,15 +129,14 @@ public class MyCrawler extends WebCrawler {
 			Metadata metadata = new Metadata();
 			URL net_url = new URL(url);
 			InputStream input = TikaInputStream.get(net_url, metadata);
-			// InputStream input = TikaInputStream.get(data, metadata);
 			StringWriter any = new StringWriter();
 			BodyContentHandler handler = new BodyContentHandler(any);
 			BoilerpipeContentHandler textHandler = new BoilerpipeContentHandler(handler);
 			ParseContext context = new ParseContext();
 			Parser parser = new AutoDetectParser();
 			parser.parse(input, textHandler, metadata, context);
-			String[] names = metadata.names();
-			Arrays.sort(names);
+//			String[] names = metadata.names();
+//			Arrays.sort(names);
 //			for (String name : names) {
 //				System.out.println(name + ": " + metadata.get(name));
 //			}

@@ -27,13 +27,12 @@ public class MeiliSearch {
 	
 	public void addDocument(MetadataBean metadata) {
 		try {
-			//String uniqueID = UUID.randomUUID().toString();  //Capaz que es mejor esto para el id
-			metadata.setId(this.id);
+			String uniqueID = UUID.randomUUID().toString();  //Capaz que es mejor esto para el id
+			metadata.setId(uniqueID);
 			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			this.index.addDocuments("[" + gson.toJson(metadata) + "]");
-			this.id += 1;
 		} catch (Exception e) {
-			// También podríamos devolver un booleano según cómo se completó la operación
+			// TODO: Log
 			System.out.println("ERROR: " + e.getMessage());
 		}
 	}
