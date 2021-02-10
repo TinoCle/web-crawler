@@ -69,18 +69,19 @@ public class Controller {
 						System.out.println(website.getUrl() + " Caída");
 						System.out.println("ID WEBSITE:" + website.getWebsiteId());
 						dao.update(website.getWebsiteId());
+						website.setIsUp(false);
 					}
 				}
 				/*int numberOfCrawlers = 8;
 				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, userWebsites.getUserId(), meilisearch);
 				controller.start(factory, numberOfCrawlers);
-				FileUtils.deleteDirectory(dir);
+				FileUtils.deleteDirectory(dir);*/
 				
 				for (WebsiteBean website : websitesUser) {
 					if (website.getIsUp()) {
 						dao.update(website);						
 					}
-				}*/
+				}
 			}
 			System.out.println(stats.toString());
 		} catch (Exception e) {
@@ -98,6 +99,7 @@ public class Controller {
 			WebsiteBean website = new WebsiteBean();
 			website.setUserId(userWebsites.getUserId());
 			website.setUrl(domains.get(i));
+			website.setIsUp(true);
 			website.setWebsiteId(websitesId.get(i));
 			websites.add(website);
 		}
