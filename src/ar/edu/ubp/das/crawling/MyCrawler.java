@@ -129,7 +129,8 @@ public class MyCrawler extends WebCrawler {
 			metadata.setTitle(doc.title());
 			metadata.setTextLength(doc.text().length());
 			doc.prependText(description);
-			metadata.setText(doc.text().replaceAll("^\"|\"$", ""));
+			//metadata.setText(doc.text().replaceAll("^\"|\"$", ""));
+			metadata.setText(doc.text().replaceAll("[^\\p{L}0-9 ]", ""));
 		}
 		// pdf, docx, odf, etc.
 		else {
