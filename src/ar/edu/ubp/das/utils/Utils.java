@@ -78,7 +78,7 @@ public class Utils {
 	public static List<String> processText(String text) {
 		try {
 			List<String> stopwords = Files.readAllLines(Paths.get("stopwords.txt"));
-			ArrayList<String> allWords = Stream.of(text.toLowerCase().split(" "))
+			ArrayList<String> allWords = Stream.of(text.replaceAll("[^\\p{L}0-9 ]", "").toLowerCase().split("\\s+"))
 					.collect(Collectors.toCollection(ArrayList<String>::new));
 			allWords.removeAll(stopwords);
 			Map<String, Long> map = allWords.stream().collect(Collectors.groupingBy(w -> w, Collectors.counting()));
