@@ -20,11 +20,17 @@ import ar.edu.ubp.das.beans.ServiceBean;
 import ar.edu.ubp.das.beans.UserWebsitesBean;
 import ar.edu.ubp.das.db.Dao;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.logging.MyLogger;
 
 public class Websites {
 	private static final String PROTOCOL_REST = "REST";
 	private static final HttpClient MyHttpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
 			.connectTimeout(Duration.ofSeconds(5)).build();
+	private MyLogger logger;
+	
+	public Websites() {
+		this.logger = new MyLogger(this.getClass().getSimpleName());
+	}
 
 	public List<UserWebsitesBean> getWebsitesPerUser() {
 		try {
@@ -32,14 +38,12 @@ public class Websites {
 			Dao<UserWebsitesBean, String> dao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
 			List<UserWebsitesBean> websites = dao.select();
 			if (websites.size() > 0) {
-				System.out.println("Páginas encontradas!");
+				this.logger.log(MyLogger.INFO, "Se encontraron páginas para indexar");
 			}
 
 			return websites;
 		} catch (SQLException e) {
-			// TODO: Log
-			System.out.println("Error al obtener el listado de p�ginas");
-			System.out.println(e);
+			this.logger.log(MyLogger.ERROR, "Error al obtener el listado de páginas: " + e.getMessage());
 		}
 		return null;
 	}
@@ -48,32 +52,33 @@ public class Websites {
 		try {
 			Dao<ServiceBean, String> serviceDao = DaoFactory.getDao("Services", "ar.edu.ubp.das");
 			List<ServiceBean> services = serviceDao.select();
-			if (services != null && services.size() > 0) {
-				System.out.println("Actualizando servicios...");
-			} else {
-				System.out.println("No se encontraron servicios para actualizar.");
+			if (services == null || services.size() <= 0) {
+				this.logger.log(MyLogger.INFO, "No se encontraron servicios para actualizar");
 			}
 			for (ServiceBean service : services) {
+				this.logger.log(
+					MyLogger.INFO, "Actualizando servicio #" + service.getService_id() + 
+					" mediante protocolo " + service.getProtocol()
+				);
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
 					HttpResponse<String> response = null;
 					try {
 						response = this.restCall(service.getURLPing());
 						if (response.statusCode() >= 400) {
-							// TODO: Log
-							System.out.println("Servicio #" + service.getService_id() + " ca�do.");
-							serviceDao.update(service); // marca como ca�do
+							this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+							serviceDao.update(service); // marca como caído
 						} else {
-							System.out.println(
-									"Servicio #" + service.getService_id() + " funcionando, obteniendo p�ginas...");
+							this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
 							response = this.restCall(service.getURLResource());
 							if (response.statusCode() >= 400) {
-								// TODO: Log
-								System.out.println("Servicio #" + service.getService_id()
-										+ " no respondi� con el listado de p�ginas.");
-								serviceDao.update(service); // marca como ca�do
+								this.logger.log(
+									MyLogger.WARNING, "Servicio #" + service.getService_id() +
+									" no respondió con el listado de páginas. Marcado como caído"
+								);
+								serviceDao.update(service); // marca como caído
 							} else {
-								System.out.println("Limpiando p�ginas del servicio #" + service.getService_id());
-								serviceDao.delete(service); // borro las p�ginas de ese servicio
+								this.logger.log(MyLogger.INFO, "Limpiando páginas del servicio #" + service.getService_id());
+								serviceDao.delete(service); // borro las páginas de ese servicio
 								JSONParser parser = new JSONParser();
 								JSONObject list = (JSONObject) ((JSONObject) parser.parse(response.body())).get("list");
 								Set<String> keys = list.keySet();
@@ -84,8 +89,7 @@ public class Websites {
 						}
 						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
 					} catch (IOException e) {
-						// TODO: Log
-						System.out.println("Servicio #" + service.getService_id() + " ca�do.");
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
 						serviceDao.update(service);
 					}
 				} else {
@@ -93,8 +97,7 @@ public class Websites {
 						JaxWsDynamicClientFactory jdcf = JaxWsDynamicClientFactory.newInstance();
 						Client client = jdcf.createClient(service.getURLPing());
 						client.invoke("ping");
-						System.out.println(
-								"Servicio #" + service.getService_id() + " funcionando, obteniendo p�ginas...");
+						this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
 						Object res[] = client.invoke("getList");
 						client.close();
 						ArrayList<String> urls = (ArrayList<String>) res[0];
@@ -103,24 +106,21 @@ public class Websites {
 							this.insertWebsite(url, service);
 						}
 						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
-
 					} catch (Exception e) {
-						// TODO: Log
-						System.out.println("Servicio #" + service.getService_id() + " ca�do.");
-						System.out.println(e.getMessage());
-						serviceDao.update(service); // marca como ca�do
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+						this.logger.log(MyLogger.ERROR, e.getMessage());
+						serviceDao.update(service); // marca como caído
 					}
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error al actualizar los servicios");
-			System.out.println(e);
+			this.logger.log(MyLogger.ERROR, "Error al actualizar los servicios: " + e.getMessage());
 		}
 	}
 
 	private void insertWebsite(String url, ServiceBean service) throws SQLException {
 		Dao<UserWebsitesBean, String> websitesDao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
-		System.out.println("Insertando " + url);
+		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
 		UserWebsitesBean website = new UserWebsitesBean();
 		website.setUserId(service.getUser_id());
 		website.setUrl(url);
