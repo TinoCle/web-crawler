@@ -11,6 +11,7 @@ import ar.edu.ubp.das.beans.UserWebsitesBean;
 import ar.edu.ubp.das.beans.WebsiteBean;
 import ar.edu.ubp.das.db.Dao;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.logging.MyLogger;
 import ar.edu.ubp.das.utils.Utils;
 import ar.edu.ubp.das.websites.Websites;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
@@ -23,22 +24,23 @@ public class Controller {
 	static {
 		System.setProperty("DaoFactoryPrefix", "MS");
 		System.setProperty("ProviderName", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=secret");
+		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=Charmander7!");
 	}
 
 	public static void main(String[] args) throws Exception {
-		Websites websitesManager = new Websites();
-		List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
-		if (websites != null && websites.size() > 0) {
-			doCrawling(websites);
-		} else {
-			// TODO: Log
-			System.out.println("No se encontraron paginas para reindexar, saltando crawling...");
-		}
+		MyLogger logger = new MyLogger("Controller");
+        Websites websitesManager = new Websites();
+        List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
+        if (websites != null && websites.size() > 0) {
+        	doCrawling(websites);
+        } else {
+        	logger.log(MyLogger.INFO, "No se encontraron paginas para reindexar, saltando crawling");
+        }
 	}
 
 	public static void doCrawling(List<UserWebsitesBean> usersWebsites) {
-		System.out.println("Iniciando Crawling...");
+		MyLogger logger = new MyLogger("Controller");
+		logger.log(MyLogger.INFO, "Iniciando crawling");
 		CrawlConfig config = initConfig();
 		Statistics stats = new Statistics();
 		try {
@@ -61,9 +63,9 @@ public class Controller {
 						String domainName = Utils.getDomainName(website.getUrl());
 						domainsId.put(domainName, website.getWebsiteId());
 						controller.addSeed(website.getUrl());
-					} else {
-						// TODO: Log
-						System.out.println(website.getUrl() + " caida");
+					}
+					else {
+						logger.log(MyLogger.WARNING, website.getUrl() + " caida");
 						dao.update(website.getWebsiteId());
 						website.setIsUp(false);
 					}
@@ -81,7 +83,8 @@ public class Controller {
 					}
 				}
 			}
-			System.out.println(stats.toString());
+			logger.log(MyLogger.INFO, "Crawling terminado");
+			logger.log(MyLogger.INFO, "stats.toString()");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

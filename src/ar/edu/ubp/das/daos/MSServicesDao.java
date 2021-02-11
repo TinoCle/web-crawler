@@ -16,7 +16,6 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 			return this.executeQuery();
 		} catch(SQLException e){
 			System.out.println("Services DAO Error: ");
-			System.out.println(e);
 		} 
 		finally {
 			this.close();

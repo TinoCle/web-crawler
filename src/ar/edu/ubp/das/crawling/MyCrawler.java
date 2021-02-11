@@ -22,6 +22,7 @@ import org.jsoup.nodes.Document;
 
 import ar.edu.ubp.das.beans.MetadataBean;
 import ar.edu.ubp.das.elastic.ElasticSearch;
+import ar.edu.ubp.das.logging.MyLogger;
 import ar.edu.ubp.das.utils.Utils;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -45,6 +46,7 @@ public class MyCrawler extends WebCrawler {
 	private int user_id;
 	private Statistics stats;
 	private ElasticSearch elastic;
+	private MyLogger logger;
 	
 	HashMap<String, Integer> countPerDomain = new HashMap<String, Integer>();
 
@@ -54,6 +56,7 @@ public class MyCrawler extends WebCrawler {
 		this.domainsId = domainsId;
 		this.user_id = user_id;
 		this.elastic = new ElasticSearch();
+		this.logger = new MyLogger(this.getClass().getSimpleName());
 	}
 
 	@Override
@@ -111,7 +114,8 @@ public class MyCrawler extends WebCrawler {
 		metadata.setUserId(this.user_id);
 		metadata.setWebsiteId(id);
 		String url = page.getWebURL().getURL();
-		System.out.println("Crawling " + url + ".");
+		
+		this.logger.log(MyLogger.INFO, "Crawleando " + url);
 		metadata.setURL(url);
 		metadata.setExtension(url.substring(url.lastIndexOf('.')));
 		metadata.setType(page.getContentType()); // text/html, application/pdf, etc
@@ -169,7 +173,7 @@ public class MyCrawler extends WebCrawler {
 			PdfDataExtractor extractor = new PdfDataExtractor(data);
 			title = extractor.extractTitle();			
 		} catch (Exception e) {
-			// TODO: Log
+			this.logger.log(MyLogger.ERROR, "Error al obtener el título de un archivo pdf: " + e.getMessage());
 			e.printStackTrace();
 		}
 		return title;
