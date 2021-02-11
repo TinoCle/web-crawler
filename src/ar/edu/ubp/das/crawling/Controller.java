@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.commons.io.FileUtils;
 
 import ar.edu.ubp.das.beans.UserWebsitesBean;
@@ -28,23 +27,24 @@ public class Controller {
 	}
 
 	public static void main(String[] args) throws Exception {
-        Websites websitesManager = new Websites();
-        List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
-        if (websites != null && websites.size() > 0) {
-        	doCrawling(websites);
-        } else {
-        	// TODO: Log
-        	System.out.println("No se encontraron paginas para reindexar, saltando crawling...");
-        }
+		Websites websitesManager = new Websites();
+		List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
+		if (websites != null && websites.size() > 0) {
+			doCrawling(websites);
+		} else {
+			// TODO: Log
+			System.out.println("No se encontraron paginas para reindexar, saltando crawling...");
+		}
 	}
 
 	public static void doCrawling(List<UserWebsitesBean> usersWebsites) {
 		System.out.println("Iniciando Crawling...");
 		CrawlConfig config = initConfig();
-        Statistics stats = new Statistics();
+		Statistics stats = new Statistics();
 		try {
 			Dao<WebsiteBean, WebsiteBean> dao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
-			// Iteramos un usuario a la vez, cada uno con su set de paginas, sino se pisa la frontera
+			// Iteramos un usuario a la vez, cada uno con su set de paginas, sino se pisa la
+			// frontera
 			for (UserWebsitesBean userWebsites : usersWebsites) {
 				File dir = Utils.getFolderName(0);
 				config.setCrawlStorageFolder(dir.toString());
@@ -61,26 +61,23 @@ public class Controller {
 						String domainName = Utils.getDomainName(website.getUrl());
 						domainsId.put(domainName, website.getWebsiteId());
 						controller.addSeed(website.getUrl());
-					}
-					else {
+					} else {
 						// TODO: Log
 						System.out.println(website.getUrl() + " caida");
 						dao.update(website.getWebsiteId());
 						website.setIsUp(false);
 					}
 				}
-				//controller.addSeed("https://stackoverflow.com/questions/1026723/how-to-convert-a-map-to-list-in-java");
+				// controller.addSeed("https://stackoverflow.com/questions/1026723/how-to-convert-a-map-to-list-in-java");
 				int numberOfCrawlers = 8;
-				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, 
-						domains,
-						domainsId,
+				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, domainsId,
 						userWebsites.getUserId());
 				controller.start(factory, numberOfCrawlers);
 				FileUtils.deleteDirectory(dir);
-				
+
 				for (WebsiteBean website : websitesUser) {
 					if (website.getIsUp()) {
-						dao.update(website);						
+						dao.update(website);
 					}
 				}
 			}
@@ -89,15 +86,15 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private static CrawlConfig initConfig() {
 		CrawlConfig config = new CrawlConfig();
-        config.setIncludeHttpsPages(true);
-        config.setPolitenessDelay(1000);
-        config.setMaxDepthOfCrawling(2);
-        config.setMaxPagesToFetch(50);
-        config.setIncludeBinaryContentInCrawling(true);
-        config.setResumableCrawling(false);
-        return config;
+		config.setIncludeHttpsPages(true);
+		config.setPolitenessDelay(1000);
+		config.setMaxDepthOfCrawling(2);
+		config.setMaxPagesToFetch(50);
+		config.setIncludeBinaryContentInCrawling(true);
+		config.setResumableCrawling(false);
+		return config;
 	}
 }

@@ -104,6 +104,7 @@ public class MyCrawler extends WebCrawler {
 		}
 		// Limite por dominio
 		if (!this.checkDomainLimit(page.getWebURL().getDomain())) {
+			System.out.println("============================== LIMIT ==================================");
 			return;
 		}
 		MetadataBean metadata = new MetadataBean();
@@ -134,14 +135,13 @@ public class MyCrawler extends WebCrawler {
 				metadata.setTitle(getPDFTitle(page.getContentData()));
 			}
 		}
+		metadata.setTopWords(Utils.processText(metadata.getText()));
 		this.elastic.indexPage(metadata);
 		System.out.println("=============");
 	}
 
 	private Integer getWebsiteId(Page page) {
-		Integer id = this.domainsId.get(page.getWebURL().getDomain());
-		System.out.println("ID OF: " + page.getWebURL().getURL() + " ID: " + id);
-		return id;
+		return this.domainsId.get(page.getWebURL().getDomain());
 	}
 	
 	private String parseDoc(String url) {

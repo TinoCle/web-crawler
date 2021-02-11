@@ -1,5 +1,7 @@
 package ar.edu.ubp.das.beans;
 
+import java.util.List;
+
 public class MetadataBean {
 	private Integer userId;
 	private String URL;
@@ -11,7 +13,16 @@ public class MetadataBean {
 	private Boolean approved = false;
 	private Integer popularity = 0;
 	private Integer websiteId;
+	private List<String> topWords;
 	
+	public List<String> getTopWords() {
+		return topWords;
+	}
+
+	public void setTopWords(List<String> topWords) {
+		this.topWords = topWords;
+	}
+
 	public Integer getWebsiteId() {
 		return websiteId;
 	}
