@@ -1,26 +1,26 @@
 package ar.edu.ubp.das.beans;
 
-public class ServiceBean {
-	private int user_id;
-	private int service_id;
+public class ServiceBean extends StatusBean {
+	private int userId;
+	private int serviceId;
 	private String URLResource;
 	private String URLPing;
 	private String protocol;
 
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public int getServiceId() {
+		return serviceId;
 	}
 
-	public int getService_id() {
-		return service_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
-	public void setService_id(int service_id) {
-		this.service_id = service_id;
+	public void setServiceId(int serviceId) {
+		this.serviceId = serviceId;
 	}
 
 	public String getURLResource() {
@@ -45,5 +45,5 @@ public class ServiceBean {
 
 	public void setProtocol(String protocol) {
 		this.protocol = protocol;
-	}	
+	}
 }

@@ -1,11 +1,10 @@
 package ar.edu.ubp.das.beans;
 
-public class WebsiteBean {
-	private Integer userId;
+public class WebsiteBean extends StatusBean {
 	private Integer websiteId;
-	private Integer serviceId;
+	private Integer userId;
 	private String url;
-	private Boolean isUp;
+	private Integer serviceId;
 	
 	public Boolean getIsUp() {
 		return isUp;
