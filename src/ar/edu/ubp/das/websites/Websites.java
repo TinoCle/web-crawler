@@ -56,10 +56,6 @@ public class Websites {
 				this.logger.log(MyLogger.INFO, "No se encontraron servicios para actualizar");
 			}
 			for (ServiceBean service : services) {
-				this.logger.log(
-					MyLogger.INFO, "Actualizando servicio #" + service.getServiceId() + 
-					" mediante protocolo " + service.getProtocol()
-				);
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
 					HttpResponse<String> response = null;
 					try {

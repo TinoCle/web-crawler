@@ -26,8 +26,8 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	@Override
 	public ServiceBean make(ResultSet result) throws SQLException {
 		ServiceBean service = new ServiceBean();
-		service.setUser_id(result.getInt("user_id"));
-		service.setService_id(result.getInt("service_id"));
+		service.setUserId(result.getInt("user_id"));
+		service.setServiceId(result.getInt("service_id"));
 		service.setProtocol(result.getString("protocol"));
 		service.setURLResource(result.getString("url_resource"));
 		service.setURLPing(result.getString("url_ping"));
@@ -56,7 +56,7 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 		try {
 			this.connect();
 			this.setProcedure("dbo.set_service_down(?)");
-			this.setParameter(1, service.getService_id());
+			this.setParameter(1, service.getServiceId());
 			int affectedRows = this.executeUpdate();
 			if (affectedRows == 0) {
 				// Medio imposible, pero no está de más el chequeo
@@ -72,8 +72,8 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 		try {
 			this.connect();
 			this.setProcedure("dbo.clean_service_pages(?,?)");
-			this.setParameter(1, service.getService_id());
-			this.setParameter(2, service.getUser_id());
+			this.setParameter(1, service.getServiceId());
+			this.setParameter(2, service.getUserId());
 			this.executeQuery();
 		} finally {
 			this.close();
