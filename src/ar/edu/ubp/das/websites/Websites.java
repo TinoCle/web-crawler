@@ -57,7 +57,7 @@ public class Websites {
 			}
 			for (ServiceBean service : services) {
 				this.logger.log(
-					MyLogger.INFO, "Actualizando servicio #" + service.getService_id() + 
+					MyLogger.INFO, "Actualizando servicio #" + service.getServiceId() + 
 					" mediante protocolo " + service.getProtocol()
 				);
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
@@ -65,19 +65,19 @@ public class Websites {
 					try {
 						response = this.restCall(service.getURLPing());
 						if (response.statusCode() >= 400) {
-							this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+							this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caído");
 							serviceDao.update(service); // marca como caído
 						} else {
-							this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
+							this.logger.log(MyLogger.INFO, "Servicio #" + service.getServiceId() + " funcionando, obteniendo páginas...");
 							response = this.restCall(service.getURLResource());
 							if (response.statusCode() >= 400) {
 								this.logger.log(
-									MyLogger.WARNING, "Servicio #" + service.getService_id() +
+									MyLogger.WARNING, "Servicio #" + service.getServiceId() +
 									" no respondió con el listado de páginas. Marcado como caído"
 								);
 								serviceDao.update(service); // marca como caído
 							} else {
-								this.logger.log(MyLogger.INFO, "Limpiando páginas del servicio #" + service.getService_id());
+								this.logger.log(MyLogger.INFO, "Limpiando páginas del servicio #" + service.getServiceId());
 								serviceDao.delete(service); // borro las páginas de ese servicio
 								JSONParser parser = new JSONParser();
 								JSONObject list = (JSONObject) ((JSONObject) parser.parse(response.body())).get("list");
@@ -87,9 +87,9 @@ public class Websites {
 								}
 							}
 						}
-						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
+						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
 					} catch (IOException e) {
-						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caído");
 						serviceDao.update(service);
 					}
 				} else {
@@ -97,7 +97,7 @@ public class Websites {
 						JaxWsDynamicClientFactory jdcf = JaxWsDynamicClientFactory.newInstance();
 						Client client = jdcf.createClient(service.getURLPing());
 						client.invoke("ping");
-						this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
+						this.logger.log(MyLogger.INFO, "Servicio #" + service.getServiceId() + " funcionando, obteniendo páginas...");
 						Object res[] = client.invoke("getList");
 						client.close();
 						ArrayList<String> urls = (ArrayList<String>) res[0];
@@ -105,9 +105,9 @@ public class Websites {
 						for (String url : urls) {
 							this.insertWebsite(url, service);
 						}
-						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
+						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
 					} catch (Exception e) {
-						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caído");
 						this.logger.log(MyLogger.ERROR, e.getMessage());
 						serviceDao.update(service); // marca como caído
 					}
@@ -122,9 +122,9 @@ public class Websites {
 		Dao<UserWebsitesBean, String> websitesDao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
 		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
 		UserWebsitesBean website = new UserWebsitesBean();
-		website.setUserId(service.getUser_id());
+		website.setUserId(service.getUserId());
 		website.setUrl(url);
-		website.setServiceId(service.getService_id());
+		website.setServiceId(service.getServiceId());
 		websitesDao.insert(website);
 	}
 
