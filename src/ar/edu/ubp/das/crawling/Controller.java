@@ -1,7 +1,6 @@
 package ar.edu.ubp.das.crawling;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,36 +54,35 @@ public class Controller {
 				RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
 				CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 				List<WebsiteBean> websitesUser = Utils.parseCsv(userWebsites);
-				List<String> domains = new ArrayList<String>();
-				Map<String, Integer> domainsId = new HashMap<String, Integer>();
+				Map<String, Integer> domains = new HashMap<String, Integer>();
 				for (WebsiteBean website : websitesUser) {
 					if (Utils.pingURL(website.getUrl(), 5000)) {
-						domains.add(website.getUrl());
 						String domainName = Utils.getDomainName(website.getUrl());
-						domainsId.put(domainName, website.getWebsiteId());
+						domains.put(domainName, website.getWebsiteId());
 						controller.addSeed(website.getUrl());
 					}
 					else {
 						logger.log(MyLogger.WARNING, website.getUrl() + " caida");
-						dao.update(website.getWebsiteId());
 						website.setIsUp(false);
+						// set isUp = false
+						dao.update(website);
 					}
 				}
-				// controller.addSeed("https://stackoverflow.com/questions/1026723/how-to-convert-a-map-to-list-in-java");
 				int numberOfCrawlers = 8;
-				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains, domainsId,
-						userWebsites.getUserId());
+				CrawlController.WebCrawlerFactory<MyCrawler> factory = 
+						() -> new MyCrawler(stats, domains, userWebsites.getUserId());
 				controller.start(factory, numberOfCrawlers);
 				FileUtils.deleteDirectory(dir);
-
 				for (WebsiteBean website : websitesUser) {
 					if (website.getIsUp()) {
-						dao.update(website);
+						// set indexed
+						dao.update(website.getWebsiteId());
 					}
 				}
 			}
 			logger.log(MyLogger.INFO, "Crawling terminado");
-			logger.log(MyLogger.INFO, "stats.toString()");
+			logger.log(MyLogger.INFO, stats.toString());
+			System.exit(0);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
