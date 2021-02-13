@@ -92,7 +92,7 @@ public class Controller {
 		config.setIncludeHttpsPages(true);
 		config.setPolitenessDelay(1000);
 		config.setMaxDepthOfCrawling(2);
-		config.setMaxPagesToFetch(50);
+		config.setMaxPagesToFetch(100);
 		config.setIncludeBinaryContentInCrawling(true);
 		config.setResumableCrawling(false);
 		return config;

@@ -7,7 +7,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.NotFoundException;
@@ -64,6 +64,8 @@ public class Websites {
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
 					try {
 						String urls[] = this.makeRestCall(service);
+						service.setIsUp(true);
+						serviceDao.update(service);
 						for (String url : urls) {
 							this.insertWebsite(url, service);
 						}
@@ -82,7 +84,9 @@ public class Websites {
 								"Servicio #" + service.getServiceId() + " funcionando, obteniendo paginas...");
 						Object res[] = client.invoke("getList");
 						client.close();
-						String[] urls = Arrays.copyOf(res, res.length, String[].class);
+						service.setIsUp(true);
+						serviceDao.update(service);
+						ArrayList<String> urls = (ArrayList<String>) res[0];
 						for (String url : urls) {
 							try {
 								this.insertWebsite(url, service);

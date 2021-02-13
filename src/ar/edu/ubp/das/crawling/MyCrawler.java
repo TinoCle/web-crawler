@@ -33,9 +33,12 @@ public class MyCrawler extends WebCrawler {
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav"
 			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|png"
 			+ "|svg|svgz|ico|jpg|jpeg|jpe|jif|jfif|jfi|webp|tiff|tif|psd|raw|arw|cr2" + "|nrw|k25|bmp|dib))$");
-	private static final String[] CONTENT_FILTER = { "application/javascript", "application/javascript; charset=UTF-8",
+	private static final String[] CONTENT_FILTER = { 
+			"application/javascript", 
+			"application/javascript; charset=UTF-8",
+			"text/xml; charset=UTF-8",
 			"application/opensearchdescription+xml; charset=utf-8" };
-	private static final int LIMIT_PER_DOMAIN = 10;
+	private static final int LIMIT_PER_DOMAIN = 50;
 	private Map<String, Integer> domains = new HashMap<String, Integer>();
 
 	private int user_id;

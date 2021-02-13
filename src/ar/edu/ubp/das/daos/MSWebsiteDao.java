@@ -37,11 +37,10 @@ public class MSWebsiteDao extends Dao<WebsiteBean, WebsiteBean> {
 	public void insert(WebsiteBean web) throws SQLException {
 		try {
 			this.connect();
-			this.setProcedure("dbo.new_website_from_service (?,?,?,?)");
+			this.setProcedure("dbo.new_website_from_service (?,?,?)");
 			this.setParameter(1, web.getUserId());
 			this.setParameter(2, web.getUrl());
 			this.setParameter(3, web.getServiceId());
-			this.setOutParameter(4, java.sql.Types.INTEGER);
 			this.executeQuery();
 		} finally {
 			this.close();
