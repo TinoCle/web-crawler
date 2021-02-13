@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.apache.commons.io.FileUtils;
 
 import ar.edu.ubp.das.beans.UserWebsitesBean;
@@ -28,13 +29,13 @@ public class Controller {
 
 	public static void main(String[] args) throws Exception {
 		MyLogger logger = new MyLogger("Controller");
-        Websites websitesManager = new Websites();
-        List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
-        if (websites != null && websites.size() > 0) {
-        	doCrawling(websites);
-        } else {
-        	logger.log(MyLogger.INFO, "No se encontraron paginas para reindexar, saltando crawling");
-        }
+		Websites websitesManager = new Websites();
+		List<UserWebsitesBean> websites = websitesManager.getWebsitesPerUser();
+		if (websites != null && websites.size() > 0) {
+			doCrawling(websites);
+		} else {
+			logger.log(MyLogger.INFO, "No se encontraron paginas para reindexar, saltando crawling");
+		}
 	}
 
 	public static void doCrawling(List<UserWebsitesBean> usersWebsites) {
@@ -60,26 +61,24 @@ public class Controller {
 						String domainName = Utils.getDomainName(website.getUrl());
 						domains.put(domainName, website.getWebsiteId());
 						controller.addSeed(website.getUrl());
-					}
-					else {
+					} else {
 						logger.log(MyLogger.WARNING, website.getUrl() + " caida");
 						website.setIsUp(false);
-						// set isUp = false
-						dao.update(website);
+						dao.update(website); // set isUp = false
 					}
 				}
 				int numberOfCrawlers = 8;
-				CrawlController.WebCrawlerFactory<MyCrawler> factory = 
-						() -> new MyCrawler(stats, domains, userWebsites.getUserId());
+				CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(stats, domains,
+						userWebsites.getUserId());
 				controller.start(factory, numberOfCrawlers);
 				FileUtils.deleteDirectory(dir);
 				for (WebsiteBean website : websitesUser) {
 					if (website.getIsUp()) {
-						// set indexed
-						dao.update(website.getWebsiteId());
+						dao.update(website.getWebsiteId()); // set indexed
 					}
 				}
 			}
+			stats.setFinishDate();
 			logger.log(MyLogger.INFO, "Crawling terminado");
 			logger.log(MyLogger.INFO, stats.toString());
 			System.exit(0);

@@ -7,19 +7,23 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.SQLException;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+
+import javax.ws.rs.NotFoundException;
 
 import org.apache.cxf.endpoint.Client;
 import org.apache.cxf.jaxws.endpoint.dynamic.JaxWsDynamicClientFactory;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import org.elasticsearch.ElasticsearchException;
+
+import com.google.gson.Gson;
 
 import ar.edu.ubp.das.beans.ServiceBean;
 import ar.edu.ubp.das.beans.UserWebsitesBean;
+import ar.edu.ubp.das.beans.WebsiteBean;
 import ar.edu.ubp.das.db.Dao;
 import ar.edu.ubp.das.db.DaoFactory;
+import ar.edu.ubp.das.elastic.ElasticSearch;
 import ar.edu.ubp.das.logging.MyLogger;
 
 public class Websites {
@@ -27,7 +31,7 @@ public class Websites {
 	private static final HttpClient MyHttpClient = HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
 			.connectTimeout(Duration.ofSeconds(5)).build();
 	private MyLogger logger;
-	
+
 	public Websites() {
 		this.logger = new MyLogger(this.getClass().getSimpleName());
 	}
@@ -38,12 +42,11 @@ public class Websites {
 			Dao<UserWebsitesBean, String> dao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
 			List<UserWebsitesBean> websites = dao.select();
 			if (websites.size() > 0) {
-				this.logger.log(MyLogger.INFO, "Se encontraron páginas para indexar");
+				this.logger.log(MyLogger.INFO, "Se encontraron paginas para indexar");
 			}
-
 			return websites;
 		} catch (SQLException e) {
-			this.logger.log(MyLogger.ERROR, "Error al obtener el listado de páginas: " + e.getMessage());
+			this.logger.log(MyLogger.ERROR, "Error al obtener el listado de paginas: " + e.getMessage());
 		}
 		return null;
 	}
@@ -56,60 +59,43 @@ public class Websites {
 				this.logger.log(MyLogger.INFO, "No se encontraron servicios para actualizar");
 			}
 			for (ServiceBean service : services) {
-				this.logger.log(
-					MyLogger.INFO, "Actualizando servicio #" + service.getService_id() + 
-					" mediante protocolo " + service.getProtocol()
-				);
+				this.logger.log(MyLogger.INFO, "Actualizando servicio #" + service.getServiceId()
+						+ " mediante protocolo " + service.getProtocol());
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
-					HttpResponse<String> response = null;
 					try {
-						response = this.restCall(service.getURLPing());
-						if (response.statusCode() >= 400) {
-							this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
-							serviceDao.update(service); // marca como caído
-						} else {
-							this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
-							response = this.restCall(service.getURLResource());
-							if (response.statusCode() >= 400) {
-								this.logger.log(
-									MyLogger.WARNING, "Servicio #" + service.getService_id() +
-									" no respondió con el listado de páginas. Marcado como caído"
-								);
-								serviceDao.update(service); // marca como caído
-							} else {
-								this.logger.log(MyLogger.INFO, "Limpiando páginas del servicio #" + service.getService_id());
-								serviceDao.delete(service); // borro las páginas de ese servicio
-								JSONParser parser = new JSONParser();
-								JSONObject list = (JSONObject) ((JSONObject) parser.parse(response.body())).get("list");
-								Set<String> keys = list.keySet();
-								for (String key : keys) {
-									this.insertWebsite((String) list.get(key), service);
-								}
-							}
+						String urls[] = this.makeRestCall(service);
+						for (String url : urls) {
+							this.insertWebsite(url, service);
 						}
-						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
-					} catch (IOException e) {
-						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
+					} catch (Exception e) {
+						service.setIsUp(false);
 						serviceDao.update(service);
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
 					}
 				} else {
 					try {
 						JaxWsDynamicClientFactory jdcf = JaxWsDynamicClientFactory.newInstance();
 						Client client = jdcf.createClient(service.getURLPing());
 						client.invoke("ping");
-						this.logger.log(MyLogger.INFO, "Servicio #" + service.getService_id() + " funcionando, obteniendo páginas...");
+						this.logger.log(MyLogger.INFO,
+								"Servicio #" + service.getServiceId() + " funcionando, obteniendo paginas...");
 						Object res[] = client.invoke("getList");
 						client.close();
-						ArrayList<String> urls = (ArrayList<String>) res[0];
-						serviceDao.delete(service); // borro las paginas de ese servicio
+						String[] urls = Arrays.copyOf(res, res.length, String[].class);
 						for (String url : urls) {
-							this.insertWebsite(url, service);
+							try {
+								this.insertWebsite(url, service);
+							} catch (Exception e) {
+								this.logger.log(MyLogger.ERROR, "Error al insertar " + url + " " + e.getMessage());
+							}
 						}
-						serviceDao.update(service.getService_id()); // setear servicio reindex = 0
+						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
 					} catch (Exception e) {
-						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getService_id() + " caído");
+						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
 						this.logger.log(MyLogger.ERROR, e.getMessage());
-						serviceDao.update(service); // marca como caído
+						service.setIsUp(false);
+						serviceDao.update(service); // marca como caido
 					}
 				}
 			}
@@ -118,14 +104,40 @@ public class Websites {
 		}
 	}
 
-	private void insertWebsite(String url, ServiceBean service) throws SQLException {
-		Dao<UserWebsitesBean, String> websitesDao = DaoFactory.getDao("Websites", "ar.edu.ubp.das");
-		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
-		UserWebsitesBean website = new UserWebsitesBean();
-		website.setUserId(service.getUser_id());
+	private String[] makeRestCall(ServiceBean service) throws IOException, SQLException, Exception {
+		Dao<ServiceBean, ServiceBean> serviceDao = DaoFactory.getDao("Services", "ar.edu.ubp.das");
+		HttpResponse<String> response = this.restCall(service.getURLPing());
+		if (response.statusCode() >= 400) {
+			this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
+			throw new NotFoundException("Servicio Caido");
+		}
+		this.logger.log(MyLogger.INFO, "Servicio # " + service.getServiceId() + " funcionando, obteniendo paginas...");
+		response = this.restCall(service.getURLResource());
+		if (response.statusCode() >= 400) {
+			this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId()
+					+ " no respondio con el listado de paginas. Marcado como caido");
+			throw new NotFoundException("Servicio Caido");
+		}
+		service.setIsUp(true);
+		serviceDao.update(service);
+		this.logger.log(MyLogger.INFO, "Limpiando paginas del servicio #" + service.getServiceId());
+		return new Gson().fromJson(response.body(), String[].class);
+	}
+
+	private void insertWebsite(String url, ServiceBean service) throws ElasticsearchException, Exception {
+		Dao<WebsiteBean, WebsiteBean> websiteDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
+		WebsiteBean website = new WebsiteBean();
+		website.setUserId(service.getUserId());
 		website.setUrl(url);
-		website.setServiceId(service.getService_id());
+		website.setServiceId(service.getServiceId());
+		WebsiteBean websiteFound = websiteDao.find(website);
+		if (websiteFound != null) {
+			ElasticSearch elastic = new ElasticSearch();
+			elastic.deleteWebsiteId(websiteFound.getWebsiteId());
+		}
+		Dao<WebsiteBean, WebsiteBean> websitesDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
 		websitesDao.insert(website);
+		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
 	}
 
 	private HttpResponse<String> restCall(String url) throws IOException, InterruptedException {

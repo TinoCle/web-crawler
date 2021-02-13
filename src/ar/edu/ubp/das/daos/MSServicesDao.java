@@ -26,8 +26,8 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	@Override
 	public ServiceBean make(ResultSet result) throws SQLException {
 		ServiceBean service = new ServiceBean();
-		service.setUser_id(result.getInt("user_id"));
-		service.setService_id(result.getInt("service_id"));
+		service.setUserId(result.getInt("user_id"));
+		service.setServiceId(result.getInt("service_id"));
 		service.setProtocol(result.getString("protocol"));
 		service.setURLResource(result.getString("url_resource"));
 		service.setURLPing(result.getString("url_ping"));
@@ -38,7 +38,7 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	public void update(Integer id) throws SQLException {
 		try {
 			this.connect();
-			this.setProcedure("dbo.reindex_service(?,?)");
+			this.setProcedure("dbo.update_reindex_status(?,?)");
 			this.setParameter(1, id);
 			this.setParameter(2, false);
 			if (this.executeUpdate() == 0) {
@@ -51,15 +51,14 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	}
 	
 	@Override
-	//utilizado para setear servicios como caídos
+	//utilizado para setear servicios como caidos
 	public void update(ServiceBean service) throws SQLException {
 		try {
 			this.connect();
-			this.setProcedure("dbo.set_service_down(?)");
-			this.setParameter(1, service.getService_id());
-			int affectedRows = this.executeUpdate();
-			if (affectedRows == 0) {
-				// Medio imposible, pero no está de más el chequeo
+			this.setProcedure("dbo.update_service_status(?,?)");
+			this.setParameter(1, service.getServiceId());
+			this.setParameter(2, service.getIsUp());
+			if (this.executeUpdate() == 0) {
 				throw new SQLException("El servicio a actualizar no existe");
 			}
 		} finally {
@@ -72,13 +71,12 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 		try {
 			this.connect();
 			this.setProcedure("dbo.clean_service_pages(?,?)");
-			this.setParameter(1, service.getService_id());
-			this.setParameter(2, service.getUser_id());
+			this.setParameter(1, service.getServiceId());
+			this.setParameter(2, service.getUserId());
 			this.executeQuery();
 		} finally {
 			this.close();
 		}
-		
 	}
 
 	@Override
@@ -90,7 +88,6 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 	@Override
 	public void delete(ServiceBean arg0, Integer arg1) throws SQLException {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -152,5 +149,4 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 		// TODO Auto-generated method stub
 		
 	}
-
 }
