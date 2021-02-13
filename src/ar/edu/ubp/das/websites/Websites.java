@@ -67,10 +67,19 @@ public class Websites {
 						service.setIsUp(true);
 						serviceDao.update(service);
 						for (String url : urls) {
-							this.insertWebsite(url, service);
+							try {
+								this.insertWebsite(url, service);
+							} catch (Exception e) {
+								this.logger.log(MyLogger.ERROR, "Error al insertar " + url + " " + e.getMessage());
+							}
 						}
 						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
 					} catch (Exception e) {
+						this.logger.log(
+							MyLogger.ERROR,
+							"Error al insertar páginas del servicio #" + service.getServiceId() + ": " +
+							e.getMessage()
+						);
 						service.setIsUp(false);
 						serviceDao.update(service);
 						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
