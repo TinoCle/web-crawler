@@ -92,9 +92,10 @@ public class Controller {
 		config.setIncludeHttpsPages(true);
 		config.setPolitenessDelay(1000);
 		config.setMaxDepthOfCrawling(2);
-		config.setMaxPagesToFetch(100);
+		config.setMaxPagesToFetch(500);
 		config.setIncludeBinaryContentInCrawling(true);
 		config.setResumableCrawling(false);
+		config.setUserAgentString("Googlebot/2.1 (+http://www.google.com/bot.html)");
 		return config;
 	}
 }

@@ -2,8 +2,12 @@ package ar.edu.ubp.das.crawling;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -33,11 +37,13 @@ public class MyCrawler extends WebCrawler {
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav"
 			+ "|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|png"
 			+ "|svg|svgz|ico|jpg|jpeg|jpe|jif|jfif|jfi|webp|tiff|tif|psd|raw|arw|cr2" + "|nrw|k25|bmp|dib))$");
-	private static final String[] CONTENT_FILTER = { 
-			"application/javascript", 
-			"application/javascript; charset=UTF-8",
-			"text/xml; charset=UTF-8",
-			"application/opensearchdescription+xml; charset=utf-8" };
+	private static final String[] CONTENT_FILTER = {
+			"application/msword",
+			"text/html",
+			"application/vnd.oasis.opendocument.text",
+			"application/vnd.oasis.opendocument.presentation",
+			"application/pdf",
+			"application/vnd.ms-powerpoint"};
 	private static final int LIMIT_PER_DOMAIN = 50;
 	private Map<String, Integer> domains = new HashMap<String, Integer>();
 
@@ -45,6 +51,8 @@ public class MyCrawler extends WebCrawler {
 	private Statistics stats;
 	private ElasticSearch elastic;
 	private MyLogger logger;
+	private DateFormat dfFormatter;
+	
 
 	HashMap<String, Integer> countPerDomain = new HashMap<String, Integer>();
 
@@ -54,6 +62,7 @@ public class MyCrawler extends WebCrawler {
 		this.user_id = user_id;
 		this.elastic = new ElasticSearch();
 		this.logger = new MyLogger(this.getClass().getSimpleName());
+		dfFormatter = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	@Override
@@ -72,11 +81,9 @@ public class MyCrawler extends WebCrawler {
 	public boolean shouldVisit(Page referringPage, WebURL url) {
 		String href = url.getURL().toLowerCase().replaceFirst("^(https|http)://", "");
 		stats.increaseVisitedUrls();
-		if (Arrays.stream(CONTENT_FILTER).anyMatch(type -> type.equals(referringPage.getContentType()))) {
-			stats.increaseSkippedLinks();
+		if (!this.checkDomainLimit(url.getDomain())) {
 			return false;
-		}
-		// only domain, not external sites
+		}		
 		if (!FILTERS.matcher(href).matches()) {
 			for (String domain : domains.keySet()) {
 				href = url.getDomain();
@@ -97,28 +104,27 @@ public class MyCrawler extends WebCrawler {
 	@Override
 	public void visit(Page page) {
 		Integer id = getWebsiteId(page);
+		this.updateDomainLimit(page.getWebURL().getDomain());
+		// el dominio no correspondia a ninguno de los registrados, saltar
 		if (id == null) {
-			return;
+			return; 
 		}
-		// Limite por dominio
-		if (!this.checkDomainLimit(page.getWebURL().getDomain())) {
-			System.out.println("============================== LIMIT ==================================");
+		if (!Arrays.stream(CONTENT_FILTER).anyMatch(type -> type.equals(page.getContentType()))) {
+			stats.increaseSkippedLinks();
 			return;
 		}
 		MetadataBean metadata = new MetadataBean();
 		metadata.setUserId(this.user_id);
 		metadata.setWebsiteId(id);
 		String url = page.getWebURL().getURL();
-
 		this.logger.log(MyLogger.INFO, "Crawleando " + url);
 		metadata.setURL(url);
-		metadata.setExtension(url.substring(url.lastIndexOf('.')));
-		metadata.setType(page.getContentType()); // text/html, application/pdf, etc
+		metadata.setType(page.getContentType());
 		try {
 			if (page.getParseData() instanceof HtmlParseData) {
 				parseHtml(metadata, page);
 			} else {
-				metadata.setText(this.parseDoc(url).replaceAll("[^\\p{L}0-9 ]", ""));
+				metadata.setText(this.parseDoc(metadata, url).replaceAll("[^\\p{L}0-9 ]", ""));
 				if (page.getContentType().equals("application/pdf")) {
 					metadata.setTitle(getPDFTitle(page.getContentData()));
 				}
@@ -143,13 +149,18 @@ public class MyCrawler extends WebCrawler {
 		if (doc.select("meta[name=description]").size() > 0) {
 			description = doc.select("meta[name=description]").get(0).attr("content");
 		}
+		try {
+			metadata.setDate(getDate(page.getWebURL().getURL()));
+		} catch (Exception e) {
+			metadata.setDate(dfFormatter.format(new Date()));
+		}
 		metadata.setTitle(doc.title());
 		metadata.setTextLength(doc.text().length());
 		doc.prependText(description);
 		metadata.setText(doc.text().replaceAll("[^\\p{L}0-9 ]", ""));
 	}
 
-	private String parseDoc(String url) throws Exception {
+	private String parseDoc(MetadataBean data, String url) throws Exception {
 		Metadata metadata = new Metadata();
 		URL net_url = new URL(url);
 		InputStream input = TikaInputStream.get(net_url, metadata);
@@ -159,6 +170,11 @@ public class MyCrawler extends WebCrawler {
 		ParseContext context = new ParseContext();
 		Parser parser = new AutoDetectParser();
 		parser.parse(input, textHandler, metadata, context);
+		if (metadata.get("dcterms:created") != null) {
+			data.setDate(metadata.getValues("dcterms:created")[0].substring(0, 10));			
+		} else {
+			data.setDate(dfFormatter.format(new Date()));			
+		}
 		return handler.toString();
 	}
 
@@ -174,9 +190,23 @@ public class MyCrawler extends WebCrawler {
 		return title;
 	}
 
+	private String getDate(String href) throws Exception {
+		URL url = new URL(href);
+		HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+		httpUrlConnection.setRequestMethod("HEAD");
+		long lastModified = httpUrlConnection.getLastModified();
+		return dfFormatter.format(new Date(lastModified));
+	}
+	
 	private boolean checkDomainLimit(String domain) {
-		this.countPerDomain.put(domain,
-				this.countPerDomain.get(domain) != null ? this.countPerDomain.get(domain) + 1 : 1);
+		if (this.countPerDomain.get(domain) == null) {
+			return true;
+		}
 		return this.countPerDomain.get(domain) <= LIMIT_PER_DOMAIN;
 	}
+	
+	private void updateDomainLimit(String domain) {
+		this.countPerDomain.put(domain, this.countPerDomain.get(domain) != null ? this.countPerDomain.get(domain) + 1 : 1);
+	}
+	
 }

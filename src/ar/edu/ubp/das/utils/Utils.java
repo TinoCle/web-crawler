@@ -18,20 +18,15 @@ import java.util.stream.Stream;
 
 import ar.edu.ubp.das.beans.UserWebsitesBean;
 import ar.edu.ubp.das.beans.WebsiteBean;
+import edu.uci.ics.crawler4j.crawler.Page;
+import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Utils {
 
 	public static String getDomainName(String url) {
-		URI uri;
-		try {
-			uri = new URI(url);
-			String domain = uri.getHost();
-			return domain.startsWith("www.") ? domain.substring(4) : domain;
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
+		WebURL weburl = new WebURL();
+		weburl.setURL(url);
+		return weburl.getDomain();
 	}
 
 	public static List<WebsiteBean> parseCsv(UserWebsitesBean userWebsites) {

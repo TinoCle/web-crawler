@@ -6,7 +6,6 @@ public class MetadataBean {
 	private Integer userId;
 	private String URL;
 	private String type;
-	private String extension;
 	private String title;
 	private String text;
 	private Integer textLength;
@@ -14,7 +13,16 @@ public class MetadataBean {
 	private Integer popularity = 0;
 	private Integer websiteId;
 	private List<String> topWords;
-	
+	private String date;
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
 	public List<String> getTopWords() {
 		return topWords;
 	}
@@ -77,14 +85,6 @@ public class MetadataBean {
 	
 	public void setType(String type) {
 		this.type = type;
-	}
-	
-	public String getExtension() {
-		return extension;
-	}
-	
-	public void setExtension(String extension) {
-		this.extension = extension;
 	}
 	
 	public String getTitle() {
