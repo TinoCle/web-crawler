@@ -2,11 +2,11 @@ package ar.edu.ubp.das.elastic;
 
 import java.io.IOException;
 import java.util.UUID;
+
 import org.apache.http.HttpHost;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.index.IndexRequest;
-import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -19,16 +19,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import ar.edu.ubp.das.beans.MetadataBean;
+import ar.edu.ubp.das.logging.MyLogger;
 
 public class ElasticSearch {
 	RestHighLevelClient client;
 	Gson gson;
 	static final String INDEX = "metadata";
+	MyLogger logger;
 
 	public ElasticSearch() {
 		this.client = new RestHighLevelClient(
 				RestClient.builder(new HttpHost("localhost", 9200, "http"), new HttpHost("localhost", 9201, "http")));
 		this.gson = new GsonBuilder().setPrettyPrinting().create();
+		this.logger = new MyLogger(this.getClass().getSimpleName());
 	}
 
 	public void indexPage(MetadataBean metadata) {
@@ -36,10 +39,11 @@ public class ElasticSearch {
 			IndexRequest request = new IndexRequest(INDEX);
 			request.id(UUID.randomUUID().toString());
 			request.source(this.gson.toJson(metadata), XContentType.JSON);
-			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
-			System.out.println("elastic: " + indexResponse.status().toString());
+			client.index(request, RequestOptions.DEFAULT);
+//			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
+//			System.out.println("elastic: " + indexResponse.status().toString());
 		} catch (IOException e) {
-			e.printStackTrace();
+			this.logger.log(MyLogger.ERROR, "Error al insertar metadato en elasticsearch: " + e.getMessage());
 		}
 	}
 	
