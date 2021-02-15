@@ -119,7 +119,7 @@ public class MyCrawler extends WebCrawler {
 		String url = page.getWebURL().getURL();
 		this.logger.log(MyLogger.INFO, "Crawleando " + url);
 		metadata.setURL(url);
-		metadata.setType(page.getContentType());
+		metadata.setType(page.getContentType().split(";")[0]);
 		try {
 			if (page.getParseData() instanceof HtmlParseData) {
 				parseHtml(metadata, page);
