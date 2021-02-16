@@ -2,12 +2,8 @@ package ar.edu.ubp.das.crawling;
 
 import java.io.InputStream;
 import java.io.StringWriter;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -51,8 +47,6 @@ public class MyCrawler extends WebCrawler {
 	private Statistics stats;
 	private ElasticSearch elastic;
 	private MyLogger logger;
-	private DateFormat dfFormatter;
-	
 
 	HashMap<String, Integer> countPerDomain = new HashMap<String, Integer>();
 
@@ -62,7 +56,6 @@ public class MyCrawler extends WebCrawler {
 		this.user_id = user_id;
 		this.elastic = new ElasticSearch();
 		this.logger = new MyLogger(this.getClass().getSimpleName());
-		dfFormatter = new SimpleDateFormat("yyyy-MM-dd");
 	}
 
 	@Override
@@ -122,9 +115,19 @@ public class MyCrawler extends WebCrawler {
 		metadata.setType(page.getContentType().split(";")[0]);
 		try {
 			if (page.getParseData() instanceof HtmlParseData) {
-				parseHtml(metadata, page);
+				HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+				Document doc = Jsoup.parse(htmlParseData.getHtml());
+				String description = "";
+				if (doc.select("meta[name=description]").size() > 0) {
+					description = doc.select("meta[name=description]").get(0).attr("content");
+				}
+				metadata.setDate(Utils.getWebDate(page.getWebURL().getURL()));
+				metadata.setTitle(doc.title());
+				metadata.setTextLength(doc.text().length());
+				doc.prependText(description);
+				metadata.setText(Utils.removeStopWords(doc.text()));
 			} else {
-				metadata.setText(this.parseDoc(metadata, url).replaceAll("[^\\p{L}0-9 ]", ""));
+				metadata.setText(this.parseDoc(metadata, url).replaceAll("[^\\p{L}0-9 ]", " "));
 				if (page.getContentType().equals("application/pdf")) {
 					metadata.setTitle(getPDFTitle(page.getContentData()));
 				}
@@ -142,24 +145,6 @@ public class MyCrawler extends WebCrawler {
 		return this.domains.get(page.getWebURL().getDomain());
 	}
 
-	private void parseHtml(MetadataBean metadata, Page page) {
-		HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-		Document doc = Jsoup.parse(htmlParseData.getHtml());
-		String description = "";
-		if (doc.select("meta[name=description]").size() > 0) {
-			description = doc.select("meta[name=description]").get(0).attr("content");
-		}
-		try {
-			metadata.setDate(getDate(page.getWebURL().getURL()));
-		} catch (Exception e) {
-			metadata.setDate(dfFormatter.format(new Date()));
-		}
-		metadata.setTitle(doc.title());
-		metadata.setTextLength(doc.text().length());
-		doc.prependText(description);
-		metadata.setText(doc.text().replaceAll("[^\\p{L}0-9 ]", ""));
-	}
-
 	private String parseDoc(MetadataBean data, String url) throws Exception {
 		Metadata metadata = new Metadata();
 		URL net_url = new URL(url);
@@ -173,9 +158,9 @@ public class MyCrawler extends WebCrawler {
 		if (metadata.get("dcterms:created") != null) {
 			data.setDate(metadata.getValues("dcterms:created")[0].substring(0, 10));			
 		} else {
-			data.setDate(dfFormatter.format(new Date()));			
+			data.setDate(Utils.getDate());
 		}
-		return handler.toString();
+		return Utils.removeStopWords(handler.toString());
 	}
 
 	private String getPDFTitle(byte[] data) throws Exception {
@@ -189,14 +174,6 @@ public class MyCrawler extends WebCrawler {
 		}
 		return title;
 	}
-
-	private String getDate(String href) throws Exception {
-		URL url = new URL(href);
-		HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-		httpUrlConnection.setRequestMethod("HEAD");
-		long lastModified = httpUrlConnection.getLastModified();
-		return dfFormatter.format(new Date(lastModified));
-	}
 	
 	private boolean checkDomainLimit(String domain) {
 		if (this.countPerDomain.get(domain) == null) {
@@ -208,5 +185,4 @@ public class MyCrawler extends WebCrawler {
 	private void updateDomainLimit(String domain) {
 		this.countPerDomain.put(domain, this.countPerDomain.get(domain) != null ? this.countPerDomain.get(domain) + 1 : 1);
 	}
-	
 }

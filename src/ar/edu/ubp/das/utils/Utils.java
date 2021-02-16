@@ -3,14 +3,15 @@ package ar.edu.ubp.das.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,10 +19,10 @@ import java.util.stream.Stream;
 
 import ar.edu.ubp.das.beans.UserWebsitesBean;
 import ar.edu.ubp.das.beans.WebsiteBean;
-import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Utils {
+	static final DateFormat dfFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static String getDomainName(String url) {
 		WebURL weburl = new WebURL();
@@ -70,6 +71,18 @@ public class Utils {
 		}
 	}
 
+	public static String removeStopWords(String text) {
+		try {
+			List<String> stopwords = Files.readAllLines(Paths.get("stopwords.txt"));
+			ArrayList<String> allWords = Stream.of(text.toLowerCase().split(" "))
+					.collect(Collectors.toCollection(ArrayList<String>::new));
+			allWords.removeAll(stopwords);
+			return allWords.stream().collect(Collectors.joining(" "));
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
 	public static List<String> processText(String text) {
 		try {
 			List<String> stopwords = Files.readAllLines(Paths.get("stopwords.txt"));
@@ -78,8 +91,7 @@ public class Utils {
 			allWords.removeAll(stopwords);
 			Map<String, Long> map = allWords.stream().collect(Collectors.groupingBy(w -> w, Collectors.counting()));
 			List<Map.Entry<String, Long>> result = map.entrySet().stream()
-					.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-					.limit(5)
+					.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5)
 					.collect(Collectors.toList());
 			List<String> words = new ArrayList<String>();
 			for (Map.Entry<String, Long> entry : result) {
@@ -91,4 +103,21 @@ public class Utils {
 			return null;
 		}
 	}
+
+	public static String getDate() {
+		return dfFormatter.format(new Date());
+	}
+	
+	public static String getWebDate(String href) throws Exception {
+		try {
+			URL url = new URL(href);
+			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
+			httpUrlConnection.setRequestMethod("HEAD");
+			long lastModified = httpUrlConnection.getLastModified();
+			return dfFormatter.format(new Date(lastModified));
+		} catch (Exception e) {
+			return getDate();
+		}
+	}
+
 }
