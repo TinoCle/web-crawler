@@ -1,7 +1,9 @@
 package ar.edu.ubp.das.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -12,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -23,11 +26,28 @@ import edu.uci.ics.crawler4j.url.WebURL;
 
 public class Utils {
 	static final DateFormat dfFormatter = new SimpleDateFormat("yyyy-MM-dd");
-
+	static final Map<String, String> mimeTypes = new HashMap<String, String>()
+	{{
+	     put("application/vnd.openxmlformats-officedocument.wordprocessingml.document", "doc"); // docx
+	     put("application/vnd.openxmlformats-officedocument.wordprocessingml", "doc");
+	     put("application/vnd.oasis.opendocument.text", "doc"); // openoffice word
+	     put("application/msword", "doc");	// doc
+	     put("application/vnd.openxmlformats-officedocument.presentationml.presentation", "ppt"); // pptx
+	     put("application/vnd.openxmlformats-officedocument.presentationml", "ppt"); // pptx
+	     put("application/vnd.ms-powerpoint", "ppt"); // ppt
+	     put("application/vnd.oasis.opendocument.presentation", "ppt"); // openoffice ppt
+	     put("application/pdf", "pdf"); // pdf
+	     put("text/html", "html"); // html
+	}};
+	
 	public static String getDomainName(String url) {
 		WebURL weburl = new WebURL();
 		weburl.setURL(url);
 		return weburl.getDomain();
+	}
+	
+	public static String getType(String mime) {
+		return mimeTypes.get(mime);
 	}
 
 	public static List<WebsiteBean> parseCsv(UserWebsitesBean userWebsites) {
@@ -82,8 +102,12 @@ public class Utils {
 			return null;
 		}
 	}
+	
+	public static String cleanText(String text) {
+		return text.replaceAll("[^\\p{L}0-9 ]", " ").replaceAll("\\s{2,}", " ");
+	}
 
-	public static List<String> processText(String text) {
+	public static List<String> topWords(String text) {
 		try {
 			List<String> stopwords = Files.readAllLines(Paths.get("stopwords.txt"));
 			ArrayList<String> allWords = Stream.of(text.replaceAll("[^\\p{L} ]", "").toLowerCase().split("\\s+"))
@@ -108,16 +132,17 @@ public class Utils {
 		return dfFormatter.format(new Date());
 	}
 	
-	public static String getWebDate(String href) throws Exception {
-		try {
-			URL url = new URL(href);
-			HttpURLConnection httpUrlConnection = (HttpURLConnection) url.openConnection();
-			httpUrlConnection.setRequestMethod("HEAD");
-			long lastModified = httpUrlConnection.getLastModified();
-			return dfFormatter.format(new Date(lastModified));
-		} catch (Exception e) {
-			return getDate();
-		}
+	public static String getHtmlDate(String href) throws IOException {
+		Runtime runtime = Runtime.getRuntime();
+        Process process = runtime.exec("htmldate.exe -f -u " + href);
+        BufferedReader lineReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+        BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
+        errorReader.lines().forEach(System.out::println);
+        String date = lineReader.readLine(); 
+        if (date.equals("")) {
+        	return dfFormatter.format(new Date());
+        } else {
+        	return date;
+        }
 	}
-
 }
