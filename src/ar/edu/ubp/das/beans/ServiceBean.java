@@ -3,8 +3,7 @@ package ar.edu.ubp.das.beans;
 public class ServiceBean extends StatusBean {
 	private int userId;
 	private int serviceId;
-	private String URLResource;
-	private String URLPing;
+	private String url;
 	private String protocol;
 
 	public int getUserId() {
@@ -23,20 +22,12 @@ public class ServiceBean extends StatusBean {
 		this.serviceId = serviceId;
 	}
 
-	public String getURLResource() {
-		return URLResource;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setURLResource(String uRLResource) {
-		URLResource = uRLResource;
-	}
-
-	public String getURLPing() {
-		return URLPing;
-	}
-
-	public void setURLPing(String uRLPing) {
-		URLPing = uRLPing;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getProtocol() {

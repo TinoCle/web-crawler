@@ -29,8 +29,7 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 		service.setUserId(result.getInt("user_id"));
 		service.setServiceId(result.getInt("service_id"));
 		service.setProtocol(result.getString("protocol"));
-		service.setURLResource(result.getString("url_resource"));
-		service.setURLPing(result.getString("url_ping"));
+		service.setUrl(result.getString("url"));
 		return service;
 	}
 	
@@ -41,9 +40,6 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 			this.setProcedure("dbo.update_reindex_status(?,?)");
 			this.setParameter(1, id);
 			this.setParameter(2, false);
-			if (this.executeUpdate() == 0) {
-				// TODO: Log
-			}
 		} finally {
 			this.close();
 		}

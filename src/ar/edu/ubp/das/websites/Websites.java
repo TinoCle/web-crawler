@@ -87,7 +87,7 @@ public class Websites {
 				} else {
 					try {
 						JaxWsDynamicClientFactory jdcf = JaxWsDynamicClientFactory.newInstance();
-						Client client = jdcf.createClient(service.getURLPing());
+						Client client = jdcf.createClient(service.getUrl());
 						client.invoke("ping");
 						this.logger.log(MyLogger.INFO,
 								"Servicio #" + service.getServiceId() + " funcionando, obteniendo paginas...");
@@ -119,13 +119,13 @@ public class Websites {
 
 	private String[] makeRestCall(ServiceBean service) throws IOException, SQLException, Exception {
 		Dao<ServiceBean, ServiceBean> serviceDao = DaoFactory.getDao("Services", "ar.edu.ubp.das");
-		HttpResponse<String> response = this.restCall(service.getURLPing());
+		HttpResponse<String> response = this.restCall(service.getUrl() + "ping");
 		if (response.statusCode() >= 400) {
 			this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
 			throw new NotFoundException("Servicio Caido");
 		}
 		this.logger.log(MyLogger.INFO, "Servicio # " + service.getServiceId() + " funcionando, obteniendo paginas...");
-		response = this.restCall(service.getURLResource());
+		response = this.restCall(service.getUrl() + "list");
 		if (response.statusCode() >= 400) {
 			this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId()
 					+ " no respondio con el listado de paginas. Marcado como caido");
