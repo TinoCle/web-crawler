@@ -40,8 +40,7 @@ public class ElasticSearch {
 			request.id(UUID.randomUUID().toString());
 			request.source(this.gson.toJson(metadata), XContentType.JSON);
 			client.index(request, RequestOptions.DEFAULT);
-//			IndexResponse indexResponse = client.index(request, RequestOptions.DEFAULT);
-//			System.out.println("elastic: " + indexResponse.status().toString());
+			this.logger.log(MyLogger.INFO, "Metadato insertado");
 		} catch (IOException e) {
 			this.logger.log(MyLogger.ERROR, "Error al insertar metadato en elasticsearch: " + e.getMessage());
 		}
@@ -54,12 +53,11 @@ public class ElasticSearch {
 		ActionListener<BulkByScrollResponse> listener = new ActionListener<BulkByScrollResponse>() {
 		    @Override
 		    public void onResponse(BulkByScrollResponse bulkResponse) {
-		        // TODO: Log
-		    	System.out.println("Metadatos Actualizados");
+		    	logger.log(MyLogger.ERROR, "Base de Datos depurada");
 		    }
 		    @Override
 		    public void onFailure(Exception e) {
-		        // TODO: Log
+		    	logger.log(MyLogger.ERROR, "Error al depurar base de datos: " + e.getMessage());
 		    }
 		};
 		client.deleteByQueryAsync(request, RequestOptions.DEFAULT, listener);

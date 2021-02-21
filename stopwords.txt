@@ -150,6 +150,8 @@ trabajas
 trabajo
 tras
 tuyo
+te
+tu
 ultimo
 un
 una

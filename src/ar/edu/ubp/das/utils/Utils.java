@@ -68,7 +68,7 @@ public class Utils {
 	}
 
 	public static boolean pingURL(String url, int timeout) {
-		url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates.
+		url = url.replaceFirst("^https", "http"); // Otherwise an exception may be thrown on invalid SSL certificates
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 			connection.setConnectTimeout(timeout);

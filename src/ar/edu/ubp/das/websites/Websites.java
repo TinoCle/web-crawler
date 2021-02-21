@@ -75,11 +75,8 @@ public class Websites {
 						}
 						serviceDao.update(service.getServiceId()); // setear servicio reindex = 0
 					} catch (Exception e) {
-						this.logger.log(
-							MyLogger.ERROR,
-							"Error al insertar páginas del servicio #" + service.getServiceId() + ": " +
-							e.getMessage()
-						);
+						this.logger.log(MyLogger.ERROR, "Error al insertar páginas del servicio #"
+								+ service.getServiceId() + ": " + e.getMessage());
 						service.setIsUp(false);
 						serviceDao.update(service);
 						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
