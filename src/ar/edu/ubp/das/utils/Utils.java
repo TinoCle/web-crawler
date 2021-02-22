@@ -134,12 +134,12 @@ public class Utils {
 	
 	public static String getHtmlDate(String href) throws IOException {
 		Runtime runtime = Runtime.getRuntime();
-        Process process = runtime.exec("htmldate.exe -f -u " + href);
+        Process process = runtime.exec("htmldate.exe -u " + href);
         BufferedReader lineReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         BufferedReader errorReader = new BufferedReader(new InputStreamReader(process.getErrorStream()));
         errorReader.lines().forEach(System.out::println);
         String date = lineReader.readLine(); 
-        if (date.equals("")) {
+        if (date == null || date.equals("")) {
         	return dfFormatter.format(new Date());
         } else {
         	return date;

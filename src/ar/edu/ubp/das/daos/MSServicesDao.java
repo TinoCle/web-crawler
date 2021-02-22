@@ -40,6 +40,7 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 			this.setProcedure("dbo.update_reindex_status(?,?)");
 			this.setParameter(1, id);
 			this.setParameter(2, false);
+			this.executeUpdate();
 		} finally {
 			this.close();
 		}

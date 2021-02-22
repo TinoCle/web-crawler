@@ -29,7 +29,7 @@ public class MyCrawler extends WebCrawler {
 	private int userId;
 	private int websiteId;
 	
-	String domain;
+	private String domain;
 	private ElasticSearch elastic;
 	
 	public MyCrawler(String domain, int userId, int websiteId) {
@@ -60,6 +60,7 @@ public class MyCrawler extends WebCrawler {
 		metadata.setType(mime);
 		try {
 			if (page.getParseData() instanceof HtmlParseData) {
+				System.out.println("Parsing HTML");
 				HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
 				Document doc = Jsoup.parse(htmlParseData.getHtml());
 				String description = "";
@@ -84,6 +85,7 @@ public class MyCrawler extends WebCrawler {
 			this.elastic.indexPage(metadata);
 			System.out.println("=============");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

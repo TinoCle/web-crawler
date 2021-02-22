@@ -15,6 +15,7 @@ import ar.edu.ubp.das.utils.Utils;
 import ar.edu.ubp.das.websites.Websites;
 import edu.uci.ics.crawler4j.crawler.CrawlConfig;
 import edu.uci.ics.crawler4j.crawler.CrawlController;
+import edu.uci.ics.crawler4j.crawler.CrawlController.WebCrawlerFactory;
 import edu.uci.ics.crawler4j.fetcher.PageFetcher;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtConfig;
 import edu.uci.ics.crawler4j.robotstxt.RobotstxtServer;
@@ -69,6 +70,7 @@ public class Controller {
 			logger.log(MyLogger.INFO, "Crawling terminado");
 			System.exit(0);
 		} catch (Exception e) {
+			System.out.println("Parsing Failed");
 			e.printStackTrace();
 		}
 	}
@@ -80,7 +82,7 @@ public class Controller {
         config.setIncludeHttpsPages(true);
         config.setPolitenessDelay(200);
         config.setMaxDepthOfCrawling(2);
-        config.setMaxPagesToFetch(50);
+        config.setMaxPagesToFetch(10);
         config.setIncludeBinaryContentInCrawling(true);
 		config.setCrawlStorageFolder(dir.toString());
         config.setResumableCrawling(false);
@@ -92,7 +94,8 @@ public class Controller {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		CrawlController.WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(Utils.getDomainName(website.getUrl()), website.getUserId(), website.getWebsiteId());
+		System.out.println("Lanzado Crawler para: " + website.getUrl());
+		WebCrawlerFactory<MyCrawler> factory = () -> new MyCrawler(Utils.getDomainName(website.getUrl()), website.getUserId(), website.getWebsiteId());
         controller.addSeed(website.getUrl());
         controller.startNonBlocking(factory, 8);
         return controller;
