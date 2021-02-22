@@ -18,6 +18,7 @@ import org.jsoup.nodes.Document;
 
 import ar.edu.ubp.das.beans.MetadataBean;
 import ar.edu.ubp.das.elastic.ElasticSearch;
+import ar.edu.ubp.das.logging.MyLogger;
 import ar.edu.ubp.das.utils.Utils;
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -28,6 +29,7 @@ public class MyCrawler extends WebCrawler {
 	private static final Pattern FILTERS = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|json|wav|avi|flv|mov|mpeg|ram|m4v|rm|smil|wmv|swf|wma|zip|rar|gz|xml|bmp|gif|png|svg|svgz|ico|jpg|jpeg|jpe|jif|jfif|jfi|webp|tiff|tif|psd|raw|arw|cr2|nrw|k25|bmp|dib))$");
 	private int userId;
 	private int websiteId;
+	MyLogger logger;
 	
 	private String domain;
 	private ElasticSearch elastic;
@@ -37,6 +39,7 @@ public class MyCrawler extends WebCrawler {
 		this.websiteId = websiteId;
 		this.elastic = new ElasticSearch();
 		this.domain = domain;
+		logger = new MyLogger("MyCrawler");
 	}
 
 	@Override
@@ -55,6 +58,7 @@ public class MyCrawler extends WebCrawler {
 		metadata.setURL(page.getWebURL().getURL());
 		String mime = Utils.getType(page.getContentType().split(";")[0]);
 		if (mime == null) {
+			this.logger.log(MyLogger.INFO, "Saltando página con mime no compatible. MIME: " + page.getContentType());
 			return;
 		}
 		metadata.setType(mime);

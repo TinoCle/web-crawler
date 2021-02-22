@@ -53,7 +53,7 @@ public class MSServicesDao extends Dao<ServiceBean, ServiceBean> {
 			this.connect();
 			this.setProcedure("dbo.update_service_status(?,?)");
 			this.setParameter(1, service.getServiceId());
-			this.setParameter(2, service.getIsUp());
+			this.setParameter(2, service.getIsUp() ? 1 : 0);
 			if (this.executeUpdate() == 0) {
 				throw new SQLException("El servicio a actualizar no existe");
 			}

@@ -41,7 +41,7 @@ public class MSWebsiteDao extends Dao<WebsiteBean, WebsiteBean> {
 			this.setParameter(1, web.getUserId());
 			this.setParameter(2, web.getUrl());
 			this.setParameter(3, web.getServiceId());
-			this.executeQuery();
+			this.executeUpdate();
 		} finally {
 			this.close();
 		}

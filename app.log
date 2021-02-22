@@ -23826,3 +23826,1683 @@
   "threadId" : 1,
   "threadPriority" : 5
 }
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #1 mediante protocolo REST",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957416,
+    "nanoOfSecond" : 153434600
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "Websites",
+  "message" : "Error al insertar pÃ¡ginas del servicio #1: Connection refused: no further information",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957420,
+    "nanoOfSecond" : 506322300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Websites",
+  "message" : "Servicio #1 caido",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957420,
+    "nanoOfSecond" : 647609100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957420,
+    "nanoOfSecond" : 647609100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 caido",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957431,
+    "nanoOfSecond" : 860494600
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "Websites",
+  "message" : "Failed to create service.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957431,
+    "nanoOfSecond" : 862494000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "No se encontraron paginas para reindexar, saltando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957432,
+    "nanoOfSecond" : 84175600
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #1 mediante protocolo REST",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957631,
+    "nanoOfSecond" : 412184000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio # 1 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957631,
+    "nanoOfSecond" : 934242300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Limpiando paginas del servicio #1",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957632,
+    "nanoOfSecond" : 45759900
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.lanacion.com.ar/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957632,
+    "nanoOfSecond" : 465843300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.clarin.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957632,
+    "nanoOfSecond" : 635363200
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957632,
+    "nanoOfSecond" : 692369800
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957639,
+    "nanoOfSecond" : 995928000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957640,
+    "nanoOfSecond" : 207476900
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957640,
+    "nanoOfSecond" : 329503400
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957640,
+    "nanoOfSecond" : 434510500
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957640,
+    "nanoOfSecond" : 435512100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957643,
+    "nanoOfSecond" : 925896600
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957649,
+    "nanoOfSecond" : 150426700
+  },
+  "threadId" : 217,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 3",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957649,
+    "nanoOfSecond" : 697497200
+  },
+  "threadId" : 221,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 3",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957653,
+    "nanoOfSecond" : 451581200
+  },
+  "threadId" : 221,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957655,
+    "nanoOfSecond" : 851749300
+  },
+  "threadId" : 125,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957656,
+    "nanoOfSecond" : 31798500
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 3",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957656,
+    "nanoOfSecond" : 697886600
+  },
+  "threadId" : 221,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957657,
+    "nanoOfSecond" : 569475300
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 3",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957658,
+    "nanoOfSecond" : 860513000
+  },
+  "threadId" : 221,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957659,
+    "nanoOfSecond" : 584126700
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 3",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957661,
+    "nanoOfSecond" : 115863600
+  },
+  "threadId" : 221,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957661,
+    "nanoOfSecond" : 616005200
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957663,
+    "nanoOfSecond" : 719099000
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957667,
+    "nanoOfSecond" : 88391300
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957669,
+    "nanoOfSecond" : 249678300
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957671,
+    "nanoOfSecond" : 627502200
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957673,
+    "nanoOfSecond" : 782204400
+  },
+  "threadId" : 135,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957683,
+    "nanoOfSecond" : 244390900
+  },
+  "threadId" : 43,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957690,
+    "nanoOfSecond" : 911477100
+  },
+  "threadId" : 43,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957695,
+    "nanoOfSecond" : 144888700
+  },
+  "threadId" : 43,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957698,
+    "nanoOfSecond" : 151169800
+  },
+  "threadId" : 43,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957701,
+    "nanoOfSecond" : 255868800
+  },
+  "threadId" : 43,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Crawling terminado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1613957733,
+    "nanoOfSecond" : 207741100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002917,
+    "nanoOfSecond" : 979655100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002924,
+    "nanoOfSecond" : 975425000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002925,
+    "nanoOfSecond" : 300474900
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002925,
+    "nanoOfSecond" : 396484300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002925,
+    "nanoOfSecond" : 513492000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002925,
+    "nanoOfSecond" : 514492800
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614002927,
+    "nanoOfSecond" : 410469500
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004516,
+    "nanoOfSecond" : 184576700
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004523,
+    "nanoOfSecond" : 440801000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004523,
+    "nanoOfSecond" : 747844000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004523,
+    "nanoOfSecond" : 838853500
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004523,
+    "nanoOfSecond" : 949860300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004523,
+    "nanoOfSecond" : 950860400
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004526,
+    "nanoOfSecond" : 116096900
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004531,
+    "nanoOfSecond" : 883388300
+  },
+  "threadId" : 38,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004532,
+    "nanoOfSecond" : 272445400
+  },
+  "threadId" : 48,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614004536,
+    "nanoOfSecond" : 283912800
+  },
+  "threadId" : 48,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006408,
+    "nanoOfSecond" : 476000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006414,
+    "nanoOfSecond" : 255000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006414,
+    "nanoOfSecond" : 484000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006414,
+    "nanoOfSecond" : 565000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006414,
+    "nanoOfSecond" : 662000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006414,
+    "nanoOfSecond" : 663000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614006416,
+    "nanoOfSecond" : 985000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007280,
+    "nanoOfSecond" : 863000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007286,
+    "nanoOfSecond" : 717000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "Websites",
+  "message" : "Error al insertar https://www.youtube.com/ El nombre de columna  no es válido.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007286,
+    "nanoOfSecond" : 904000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007287,
+    "nanoOfSecond" : 56000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007287,
+    "nanoOfSecond" : 174000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007287,
+    "nanoOfSecond" : 175000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007287,
+    "nanoOfSecond" : 204000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Crawling terminado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007287,
+    "nanoOfSecond" : 284000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007627,
+    "nanoOfSecond" : 799000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007633,
+    "nanoOfSecond" : 861000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "ERROR",
+  "loggerName" : "Websites",
+  "message" : "Error al insertar https://www.youtube.com/ El nombre de columna  no es válido.",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 31000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 155000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 251000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 252000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 320000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Crawling terminado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007634,
+    "nanoOfSecond" : 380000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "No se encontraron servicios para actualizar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007744,
+    "nanoOfSecond" : 649000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007745,
+    "nanoOfSecond" : 7000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007745,
+    "nanoOfSecond" : 8000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007805,
+    "nanoOfSecond" : 42000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007810,
+    "nanoOfSecond" : 907000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007811,
+    "nanoOfSecond" : 148000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007811,
+    "nanoOfSecond" : 222000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007811,
+    "nanoOfSecond" : 327000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007811,
+    "nanoOfSecond" : 328000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007813,
+    "nanoOfSecond" : 686000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007819,
+    "nanoOfSecond" : 373000000
+  },
+  "threadId" : 35,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 8",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007820,
+    "nanoOfSecond" : 797000000
+  },
+  "threadId" : 97,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 8",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007824,
+    "nanoOfSecond" : 653000000
+  },
+  "threadId" : 97,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 8",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007826,
+    "nanoOfSecond" : 889000000
+  },
+  "threadId" : 97,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 8",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007828,
+    "nanoOfSecond" : 872000000
+  },
+  "threadId" : 97,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 8",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007830,
+    "nanoOfSecond" : 772000000
+  },
+  "threadId" : 97,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Crawling terminado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614007863,
+    "nanoOfSecond" : 914000000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008453,
+    "nanoOfSecond" : 423861200
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008461,
+    "nanoOfSecond" : 37892000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008461,
+    "nanoOfSecond" : 395471100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008461,
+    "nanoOfSecond" : 560558100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008461,
+    "nanoOfSecond" : 700568000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008461,
+    "nanoOfSecond" : 701568400
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "WARN",
+  "loggerName" : "Controller",
+  "message" : "https://mercadolibre.com.cl caida",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008463,
+    "nanoOfSecond" : 709828600
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 1",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008469,
+    "nanoOfSecond" : 541443500
+  },
+  "threadId" : 39,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008470,
+    "nanoOfSecond" : 316035000
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008474,
+    "nanoOfSecond" : 191017000
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008476,
+    "nanoOfSecond" : 642082200
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008478,
+    "nanoOfSecond" : 780910200
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "Crawler 2",
+  "level" : "INFO",
+  "loggerName" : "ElasticSearch",
+  "message" : "Metadato insertado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008480,
+    "nanoOfSecond" : 795704200
+  },
+  "threadId" : 41,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Crawling terminado",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614008513,
+    "nanoOfSecond" : 906690100
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "No se encontraron servicios para actualizar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614010052,
+    "nanoOfSecond" : 233543300
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "No se encontraron paginas para reindexar, saltando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614010052,
+    "nanoOfSecond" : 517083800
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Actualizando servicio #10 mediante protocolo SOAP",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011743,
+    "nanoOfSecond" : 858849700
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Servicio #10 funcionando, obteniendo paginas...",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011750,
+    "nanoOfSecond" : 953615000
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://www.youtube.com/ en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011751,
+    "nanoOfSecond" : 224682700
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Insertando https://mercadolibre.com.cl en la base de datos",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011751,
+    "nanoOfSecond" : 314690200
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Websites",
+  "message" : "Se encontraron paginas para indexar",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011751,
+    "nanoOfSecond" : 424702200
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}
+{
+  "thread" : "main",
+  "level" : "INFO",
+  "loggerName" : "Controller",
+  "message" : "Iniciando crawling",
+  "endOfBatch" : false,
+  "loggerFqcn" : "org.apache.logging.log4j.spi.AbstractLogger",
+  "instant" : {
+    "epochSecond" : 1614011751,
+    "nanoOfSecond" : 425701800
+  },
+  "threadId" : 1,
+  "threadPriority" : 5
+}

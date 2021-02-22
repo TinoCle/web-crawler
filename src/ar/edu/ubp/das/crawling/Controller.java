@@ -70,8 +70,7 @@ public class Controller {
 			logger.log(MyLogger.INFO, "Crawling terminado");
 			System.exit(0);
 		} catch (Exception e) {
-			System.out.println("Parsing Failed");
-			e.printStackTrace();
+			logger.log(MyLogger.ERROR, "Error al realizar el crawling. ERROR: " + e.getMessage());
 		}
 	}
 	

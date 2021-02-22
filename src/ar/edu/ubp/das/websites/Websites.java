@@ -63,6 +63,7 @@ public class Websites {
 						+ " mediante protocolo " + service.getProtocol());
 				if (service.getProtocol().equals(PROTOCOL_REST)) {
 					try {
+						System.out.println("REST");
 						String urls[] = this.makeRestCall(service);
 						service.setIsUp(true);
 						serviceDao.update(service);
@@ -83,8 +84,10 @@ public class Websites {
 					}
 				} else {
 					try {
+						System.out.println("CREATING CLIENT");
 						JaxWsDynamicClientFactory jdcf = JaxWsDynamicClientFactory.newInstance();
 						Client client = jdcf.createClient(service.getUrl());
+						System.out.println("CLIENT CREATED");
 						client.invoke("ping");
 						this.logger.log(MyLogger.INFO,
 								"Servicio #" + service.getServiceId() + " funcionando, obteniendo paginas...");
@@ -105,7 +108,7 @@ public class Websites {
 						this.logger.log(MyLogger.WARNING, "Servicio #" + service.getServiceId() + " caido");
 						this.logger.log(MyLogger.ERROR, e.getMessage());
 						service.setIsUp(false);
-						serviceDao.update(service); // marca como caido
+						serviceDao.update(service); // marcar como caido
 					}
 				}
 			}
@@ -114,6 +117,22 @@ public class Websites {
 		}
 	}
 
+	private void insertWebsite(String url, ServiceBean service) throws ElasticsearchException, Exception {
+		Dao<WebsiteBean, WebsiteBean> websiteDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
+		WebsiteBean website = new WebsiteBean();
+		website.setUserId(service.getUserId());
+		website.setUrl(url);
+		website.setServiceId(service.getServiceId());
+		WebsiteBean websiteFound = websiteDao.find(website);
+		if (websiteFound != null) {
+			ElasticSearch elastic = new ElasticSearch();
+			elastic.deleteWebsiteId(websiteFound.getWebsiteId());
+		}
+		Dao<WebsiteBean, WebsiteBean> websitesDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
+		websitesDao.insert(website);
+		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
+	}
+	
 	private String[] makeRestCall(ServiceBean service) throws IOException, SQLException, Exception {
 		Dao<ServiceBean, ServiceBean> serviceDao = DaoFactory.getDao("Services", "ar.edu.ubp.das");
 		HttpResponse<String> response = this.restCall(service.getUrl() + "ping");
@@ -134,21 +153,6 @@ public class Websites {
 		return new Gson().fromJson(response.body(), String[].class);
 	}
 
-	private void insertWebsite(String url, ServiceBean service) throws ElasticsearchException, Exception {
-		Dao<WebsiteBean, WebsiteBean> websiteDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
-		WebsiteBean website = new WebsiteBean();
-		website.setUserId(service.getUserId());
-		website.setUrl(url);
-		website.setServiceId(service.getServiceId());
-		WebsiteBean websiteFound = websiteDao.find(website);
-		if (websiteFound != null) {
-			ElasticSearch elastic = new ElasticSearch();
-			elastic.deleteWebsiteId(websiteFound.getWebsiteId());
-		}
-		Dao<WebsiteBean, WebsiteBean> websitesDao = DaoFactory.getDao("Website", "ar.edu.ubp.das");
-		websitesDao.insert(website);
-		this.logger.log(MyLogger.INFO, "Insertando " + url + " en la base de datos");
-	}
 
 	private HttpResponse<String> restCall(String url) throws IOException, InterruptedException {
 		HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
