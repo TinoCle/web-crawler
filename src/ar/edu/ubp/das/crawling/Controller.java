@@ -24,7 +24,7 @@ public class Controller {
 	static {
 		System.setProperty("DaoFactoryPrefix", "MS");
 		System.setProperty("ProviderName", "com.microsoft.sqlserver.jdbc.SQLServerDriver");
-		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=users;user=sa;password=secret");
+		System.setProperty("ConnectionString", "jdbc:sqlserver://localhost;databaseName=buscador;user=sa;password=secret");
 	}
 
 	public static void main(String[] args) throws Exception {
