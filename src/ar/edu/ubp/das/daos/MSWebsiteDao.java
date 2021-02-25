@@ -20,7 +20,7 @@ public class MSWebsiteDao extends Dao<WebsiteBean, WebsiteBean> {
 	public WebsiteBean find(WebsiteBean web) throws SQLException {
 		try {
 			this.connect();
-			this.setProcedure("dbo.get_service_website_indexed(?,?)");
+			this.setProcedure("dbo.find_website_indexed(?,?)");
 			this.setParameter(1, web.getUrl());
 			this.setParameter(2, web.getServiceId());
 			List<WebsiteBean> user = this.executeQuery();
