@@ -58,7 +58,7 @@ public class MyCrawler extends WebCrawler {
 		metadata.setURL(page.getWebURL().getURL());
 		String mime = Utils.getType(page.getContentType().split(";")[0]);
 		if (mime == null) {
-			this.logger.log(MyLogger.INFO, "Saltando p·gina con mime no compatible. MIME: " + page.getContentType());
+			this.logger.log(MyLogger.INFO, "Saltando p√°gina con mime no compatible. MIME: " + page.getContentType());
 			return;
 		}
 		metadata.setType(mime);
@@ -80,7 +80,6 @@ public class MyCrawler extends WebCrawler {
 				metadata.setDate(Utils.getHtmlDate(metadata.getURL()));
 			} else {
 				this.parseDoc(metadata);
-				System.out.println(metadata.getText());
 				if (metadata.getType().equals("pdf")) {
 					metadata.setTitle(getPDFTitle(page.getContentData()));
 				}
@@ -110,6 +109,11 @@ public class MyCrawler extends WebCrawler {
 		}
 		String text = handler.toString();
 		text = Utils.cleanText(text);
+		if (metadata.get("resourceName") != null) {
+			data.setTitle(metadata.getValues("resourceName")[0]);
+		} else {
+			data.setTitle("Documento sin titulo." + data.getType());
+		}
 		data.setTextLength(text.length());
 		data.setText(Utils.removeStopWords(text));
 	}

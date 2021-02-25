@@ -82,6 +82,7 @@ public class Controller {
         config.setPolitenessDelay(200);
         config.setMaxDepthOfCrawling(2);
         config.setMaxPagesToFetch(10);
+        config.setMaxDownloadSize(2097152);
         config.setIncludeBinaryContentInCrawling(true);
 		config.setCrawlStorageFolder(dir.toString());
         config.setResumableCrawling(false);
