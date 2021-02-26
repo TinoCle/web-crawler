@@ -77,7 +77,11 @@ public class MyCrawler extends WebCrawler {
 				text = Utils.cleanText(text);
 				metadata.setTextLength(text.length());
 				metadata.setText(Utils.removeStopWords(doc.text()));
-				metadata.setDate(Utils.getHtmlDate(metadata.getURL()));
+				try {
+					metadata.setDate(Utils.getHtmlDate(metadata.getURL()));
+				} catch (Exception e) {
+					metadata.setDate(null);
+				}
 			} else {
 				this.parseDoc(metadata);
 				if (metadata.getType().equals("pdf")) {
